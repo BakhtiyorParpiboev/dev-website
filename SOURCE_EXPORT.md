@@ -1,0 +1,103 @@
+# Deployment and content transfer
+
+The repository contains application source, shared libraries, generated API source, package manifests, a lockfile, and editing instructions. See `README.md` for local setup.
+
+**Start with `AGENTS.md` when handing this project to another coding agent.**
+
+## What is not included
+
+- Secrets, environment variable values, or `.env` files
+- Database rows, Clerk users/sessions, or uploaded documents
+- `node_modules`, compiled `dist` output, caches, logs, Git history, or temporary files
+- Private agent/session state and bundled platform skills
+
+This is a **source repository**, not a full backup of your live content or authentication accounts. A fresh database gets the initial profile and clearly labeled examples from the seed code. Later edits made through the admin page require a separate database backup if you want to transfer them.
+
+## Install
+
+Use Node.js 24 and pnpm 10:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm run typecheck
+```
+
+The runtime consists of the portfolio frontend and API server, with shared workspace libraries.
+
+## Environment configuration
+
+Configure these through your host's environment/secret settings; values are deliberately not bundled:
+
+| Variable | Used by | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | API/database tooling | PostgreSQL connection |
+| `CLERK_SECRET_KEY` | API | Clerk server credentials |
+| `CLERK_PUBLISHABLE_KEY` | API | Matching Clerk instance |
+| `VITE_CLERK_PUBLISHABLE_KEY` | Frontend | Matching Clerk publishable key |
+| `ADMIN_EMAIL` | API | Sole authorized owner's verified email |
+| `PORT` | Each service | Service's own listening port |
+| `BASE_PATH` | Vite | Frontend mount path; `/` for the portfolio |
+| `SITE_URL` | API, optional | Actual canonical public origin |
+| `VITE_SITE_URL` | Frontend, optional | Same origin for canonical metadata |
+
+Configure a Clerk application for the destination domain. The existing frontend supports `VITE_CLERK_PROXY_URL`; the backend retains its production Clerk proxy. Use a proxy URL only when it is configured for that Clerk instance and domain. Keep matching frontend/backend Clerk keys and verified owner authorization.
+
+Frontend `VITE_*` values are build-time configuration. A production frontend must be rebuilt after changing them. Do not put server secrets in `VITE_*` variables.
+
+## Database and server
+
+After configuring a new development PostgreSQL database:
+
+```sh
+pnpm --filter @workspace/db run push
+```
+
+The API initializes starter content only when the singleton profile does not exist. It does not create database tables automatically.
+
+The API service command is:
+
+```sh
+pnpm --filter @workspace/api-server run dev
+```
+
+It requires its `PORT` and server environment to be set by the host.
+
+## Frontend and routing
+
+The portfolio service command is:
+
+```sh
+pnpm --filter @workspace/portfolio run dev
+```
+
+It requires its own `PORT`, `BASE_PATH=/`, and frontend authentication configuration.
+
+The app expects **same-origin routing**:
+
+| Public path | Destination |
+| --- | --- |
+| `/api` and subpaths | API service |
+| `/sitemap.xml` | API service |
+| `/robots.txt` | API service |
+| All other paths | Portfolio frontend |
+
+Configure a reverse proxy with frontend history fallback. For local development, use `API_PORT=5000` with Vite as described in `README.md`. Starting the two services on separate ports alone does not establish this routing. Keep API URLs relative; do not hardcode localhost into browser code.
+
+For a production build, supply the frontend build environment and run each package's build:
+
+```sh
+pnpm --filter @workspace/portfolio run build
+pnpm --filter @workspace/api-server run build
+```
+
+The frontend output is `artifacts/portfolio/dist/public`. The API entry point is `artifacts/api-server/dist/index.mjs`. Build output is ignored by Git.
+
+## Editing content
+
+Visit `/admin`, authenticate with the configured owner's email, and verify it. Use the editor for projects, blog posts, profile text, current focus, social/contact links, and document URLs. Other accounts must remain unable to edit.
+
+## Cover image uploads
+
+The owner editor accepts PNG, JPEG, and WebP cover images up to 5 MiB (40 megapixels). The API decodes, auto-orients, downsizes to at most 2400px, strips metadata, and saves WebP files. No database schema change is required: the existing imageUrl field stores the server-issued path. HTTPS cover URLs already saved remain supported.
+
+Files live in `artifacts/api-server/uploads` when running the API from its package directory. Set `UPLOAD_DIR` to an absolute persistent-volume directory in production, and back it up alongside the database. Container or ephemeral hosting without a persistent volume will lose uploads on replacement. Keep `/api/images` routed to the API; do not expose the upload folder as a static directory. Unattached and draft images require owner access; images referenced by published content are public. Unpublishing revokes future public image requests. Replacing or removing a cover does not delete the underlying file. Uploads are not included in source exports.

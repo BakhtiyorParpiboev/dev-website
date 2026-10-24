@@ -1,0 +1,174 @@
+# Cleanup inventory
+
+Removed source/reference files: 137. All were archived locally at `/tmp/portfolio-cleanup-recovery.zip` before deletion. The archive is outside the repository and is not part of the GitHub source. Obsolete sandbox/helper dependency caches were also removed; application dependencies and uploaded images were preserved.
+
+## Removed files
+
+- `.conversation/attached_assets/Screenshot_from_2026-10-22_14-07-39_1792648082232.png`
+- `.conversation/attached_assets/Screenshot_from_2026-10-22_14-44-25_1792648082232.png`
+- `.conversation/attached_assets/Screenshot_from_2026-10-22_14-46-26_1792648082232.png`
+- `.replitignore`
+- `EXPORT_MANIFEST.json`
+- `artifacts/api-server/.replit-artifact/artifact.toml`
+- `artifacts/api-server/src/lib/.gitkeep`
+- `artifacts/api-server/src/middlewares/.gitkeep`
+- `artifacts/mockup-sandbox/.replit-artifact/artifact.toml`
+- `artifacts/mockup-sandbox/components.json`
+- `artifacts/mockup-sandbox/index.html`
+- `artifacts/mockup-sandbox/mockupPreviewPlugin.ts`
+- `artifacts/mockup-sandbox/package.json`
+- `artifacts/mockup-sandbox/src/.generated/mockup-components.ts`
+- `artifacts/mockup-sandbox/src/App.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/accordion.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/alert-dialog.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/alert.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/aspect-ratio.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/avatar.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/badge.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/breadcrumb.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/button-group.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/button.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/calendar.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/card.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/carousel.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/chart.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/checkbox.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/collapsible.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/command.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/context-menu.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/dialog.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/drawer.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/dropdown-menu.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/empty.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/field.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/form.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/hover-card.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/input-group.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/input-otp.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/input.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/item.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/kbd.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/label.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/menubar.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/navigation-menu.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/pagination.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/popover.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/progress.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/radio-group.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/resizable.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/scroll-area.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/select.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/separator.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/sheet.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/sidebar.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/skeleton.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/slider.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/sonner.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/spinner.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/switch.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/table.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/tabs.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/textarea.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/toast.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/toaster.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/toggle-group.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/toggle.tsx`
+- `artifacts/mockup-sandbox/src/components/ui/tooltip.tsx`
+- `artifacts/mockup-sandbox/src/hooks/use-mobile.tsx`
+- `artifacts/mockup-sandbox/src/hooks/use-toast.ts`
+- `artifacts/mockup-sandbox/src/index.css`
+- `artifacts/mockup-sandbox/src/lib/utils.ts`
+- `artifacts/mockup-sandbox/src/main.tsx`
+- `artifacts/mockup-sandbox/tsconfig.json`
+- `artifacts/mockup-sandbox/vite.config.ts`
+- `artifacts/portfolio/.replit-artifact/artifact.toml`
+- `artifacts/portfolio/NPM_SETUP.md`
+- `artifacts/portfolio/npm-migration.patch`
+- `artifacts/portfolio/public/favicon.svg`
+- `artifacts/portfolio/src/components/ui/accordion.tsx`
+- `artifacts/portfolio/src/components/ui/alert.tsx`
+- `artifacts/portfolio/src/components/ui/aspect-ratio.tsx`
+- `artifacts/portfolio/src/components/ui/avatar.tsx`
+- `artifacts/portfolio/src/components/ui/badge.tsx`
+- `artifacts/portfolio/src/components/ui/breadcrumb.tsx`
+- `artifacts/portfolio/src/components/ui/button-group.tsx`
+- `artifacts/portfolio/src/components/ui/calendar.tsx`
+- `artifacts/portfolio/src/components/ui/card.tsx`
+- `artifacts/portfolio/src/components/ui/carousel.tsx`
+- `artifacts/portfolio/src/components/ui/chart.tsx`
+- `artifacts/portfolio/src/components/ui/checkbox.tsx`
+- `artifacts/portfolio/src/components/ui/collapsible.tsx`
+- `artifacts/portfolio/src/components/ui/command.tsx`
+- `artifacts/portfolio/src/components/ui/context-menu.tsx`
+- `artifacts/portfolio/src/components/ui/drawer.tsx`
+- `artifacts/portfolio/src/components/ui/dropdown-menu.tsx`
+- `artifacts/portfolio/src/components/ui/empty.tsx`
+- `artifacts/portfolio/src/components/ui/field.tsx`
+- `artifacts/portfolio/src/components/ui/form.tsx`
+- `artifacts/portfolio/src/components/ui/hover-card.tsx`
+- `artifacts/portfolio/src/components/ui/input-group.tsx`
+- `artifacts/portfolio/src/components/ui/input-otp.tsx`
+- `artifacts/portfolio/src/components/ui/input.tsx`
+- `artifacts/portfolio/src/components/ui/item.tsx`
+- `artifacts/portfolio/src/components/ui/kbd.tsx`
+- `artifacts/portfolio/src/components/ui/label.tsx`
+- `artifacts/portfolio/src/components/ui/menubar.tsx`
+- `artifacts/portfolio/src/components/ui/navigation-menu.tsx`
+- `artifacts/portfolio/src/components/ui/pagination.tsx`
+- `artifacts/portfolio/src/components/ui/popover.tsx`
+- `artifacts/portfolio/src/components/ui/progress.tsx`
+- `artifacts/portfolio/src/components/ui/radio-group.tsx`
+- `artifacts/portfolio/src/components/ui/resizable.tsx`
+- `artifacts/portfolio/src/components/ui/scroll-area.tsx`
+- `artifacts/portfolio/src/components/ui/select.tsx`
+- `artifacts/portfolio/src/components/ui/separator.tsx`
+- `artifacts/portfolio/src/components/ui/sheet.tsx`
+- `artifacts/portfolio/src/components/ui/sidebar.tsx`
+- `artifacts/portfolio/src/components/ui/slider.tsx`
+- `artifacts/portfolio/src/components/ui/sonner.tsx`
+- `artifacts/portfolio/src/components/ui/spinner.tsx`
+- `artifacts/portfolio/src/components/ui/table.tsx`
+- `artifacts/portfolio/src/components/ui/tabs.tsx`
+- `artifacts/portfolio/src/components/ui/textarea.tsx`
+- `artifacts/portfolio/src/components/ui/toggle-group.tsx`
+- `artifacts/portfolio/src/components/ui/toggle.tsx`
+- `artifacts/portfolio/src/hooks/use-mobile.tsx`
+- `attached_assets/Pasted-TASK-Add-an-interactive-particle-background-animation-t_1792649913505.txt`
+- `attached_assets/image_1792649390790.png`
+- `replit.md`
+- `scripts/package.json`
+- `scripts/post-merge.sh`
+- `scripts/src/hello.ts`
+- `scripts/tsconfig.json`
+- `src/main.tsx`
+
+## Retained intentionally
+
+- `artifacts/portfolio/public/logo.svg`: used by the browser icon and Clerk sign-in branding.
+- `artifacts/portfolio/public/images/about-workspace.svg`: fallback if the portrait cannot load.
+- `artifacts/portfolio/public/images/about-portrait.png`: supplied owner portrait.
+- `artifacts/api-server/src/middlewares/clerkProxyMiddleware.ts`: working authentication proxy; only obsolete platform-specific comments were updated.
+- Generated API source, image tests, and database seed: required application infrastructure.
+- Real environment files, existing database content, and uploaded covers: preserved locally and excluded from Git.
+
+## Other cleanup
+
+- Removed unused frontend dependencies and the unused root connector SDK.
+- Removed platform-only preview plugins and deployment configuration.
+- Removed platform-specific native-package exclusions so installs can resolve packages for the target platform.
+- Updated lockfile, setup examples, documentation, ignore rules, and GitHub checks.
+
+- Aligned React and React DOM at 19.1.4 to satisfy the existing Clerk peer requirements.
+- Pinned pnpm 10.26.1 and removed the obsolete preinstall command that deleted other lockfiles.
+
+## Verification
+
+- Frozen install succeeded using pnpm 10.26.1 and Node 24.
+- Workspace typechecks passed.
+- All 7 image-processing tests passed.
+- Frontend and API production builds passed. Existing frontend tooltip sourcemap and large-chunk warnings remain non-blocking.
+- Restarted frontend and API; home, Projects, Blog, Working on, profile, project-list, and health endpoints returned HTTP 200. The saved project list still contains 3 projects.
+- Final browser recheck was blocked by the browser URL policy; the HTTP checks above are server checks, not a fresh visual inspection.
+- Git ignore checks exclude real environment files, uploads, dependencies, build output, and private workspace folders; safe environment examples remain eligible for Git.
+- A targeted scan of the 93 source candidates found no matching secret patterns. This is a pattern scan, not a guarantee.
+- Local Git repository initialized on `main`. No commit, remote, or push was created. GitHub Actions will run for the first time after pushing to GitHub.
