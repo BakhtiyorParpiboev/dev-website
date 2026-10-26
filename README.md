@@ -23,6 +23,10 @@ Fill in the local environment files. Use matching Clerk development keys and set
 
 ## Local development
 
+With the environment files configured, run `pnpm api` in one terminal and `pnpm dev` in another, both from the repository root. The API shortcut explicitly loads its `.env.local`. Use `pnpm run server` if you prefer the server alias; plain `pnpm server` is reserved by pnpm for its store service.
+
+The equivalent service commands are shown below.
+
 From the repository root, start the API in one terminal:
 
 ```sh

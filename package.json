@@ -6,7 +6,10 @@
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --if-present run typecheck",
-    "test": "node artifacts/api-server/tests/images.test.ts"
+    "test": "node artifacts/api-server/tests/images.test.ts",
+    "dev": "cd artifacts/portfolio && PORT=5173 BASE_PATH=/ API_PORT=5000 pnpm run dev",
+    "server": "cd artifacts/api-server && bash -c 'set -a; source .env.local || exit 1; set +a; PORT=5000 pnpm run dev'",
+    "api": "pnpm run server"
   },
   "private": true,
   "devDependencies": {
