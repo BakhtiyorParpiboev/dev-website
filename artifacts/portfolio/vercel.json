@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://api.bakhtiyor.me/api/:path*"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "https://api.bakhtiyor.me/sitemap.xml"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "https://api.bakhtiyor.me/robots.txt"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
