@@ -96,8 +96,8 @@ function SectionHead({ label, title, id }: { label: string; title: string; id: s
 const OFFERS = [
   { note: "End-to-end development", n: "01", t: "Full-stack applications", d: "Typed end to end — schema, API contract, interface. Software that stays easy to change after launch." },
   { note: "Practical intelligence", n: "02", t: "AI integrations", d: "Language models wired into real workflows, with structured outputs, guardrails, and graceful fallbacks." },
-  { note: "A dependable foundation", n: "03", t: "APIs and data", d: "Clear contracts, considered data models, and backends that are boring in the best way." },
-  { note: "Details that make a difference", n: "04", t: "Interfaces", d: "Fast, accessible front-ends that respect the reader — motion where it helps, quiet where it doesn't." },
+  { note: "Clarity before complexity", n: "03", t: "Software design", d: "Clear requirements, thoughtful system models, and modular designs that make software easier to build, maintain, and evolve." },
+  { note: "A dependable foundation", n: "04", t: "Backend architecture", d: "Reliable servers, well-defined APIs, and considered data models — with authentication, validation, and room to grow." },
 ];
 
 function OfferVisual({ kind }: { kind: string }) {
@@ -113,13 +113,13 @@ function OfferVisual({ kind }: { kind: string }) {
           <rect x="160" y="60" width="82" height="55" rx="9" /><path d="m227 115 5 12-21-12M177 79h31m-31 12h48" />
           <path d="m140 35 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11ZM121 76h39" />
         </> : kind === "03" ? <>
-          <rect x="37" y="54" width="55" height="42" rx="7" /><path d="M52 70h25m-25 9h17M92 75h43m0-35v70m0-70h45m-45 35h45m-45 35h45" />
-          {[25, 60, 95].map(y => <g key={y}><rect x="180" y={y} width="61" height="30" rx="5" /><path d={`M193 ${y+12}h25M193 ${y+19}h16`} /></g>)}
-          <circle cx="135" cy="75" r="3" fill="currentColor" />
+          <rect x="108" y="24" width="64" height="34" rx="5" fill="currentColor" fillOpacity=".06" />
+          <path d="M123 37h34m-34 8h22M140 58v22m-71 0h142M69 80v15m71-15v15m71-15v15" />
+          {[40, 111, 182].map(x => <g key={x}><rect x={x} y="95" width="58" height="32" rx="5" /><path d={`M${x+12} 108h34m-34 8h22`} /></g>)}
         </> : <>
-          <rect x="48" y="25" width="184" height="103" rx="7" /><path d="M48 45h184" /><circle cx="60" cy="35" r="1" /><circle cx="67" cy="35" r="1" /><circle cx="74" cy="35" r="1" />
-          <rect x="62" y="58" width="47" height="56" rx="3" fill="currentColor" fillOpacity=".05" />
-          <path d="M123 61h75m-75 11h51m-51 14h91" /><rect x="123" y="98" width="42" height="14" rx="3" fill="currentColor" fillOpacity=".12" />
+          {[29, 61, 93].map(y => <g key={y}><rect x="53" y={y} width="112" height="25" rx="5" fill="currentColor" fillOpacity=".05" /><circle cx="68" cy={y+12.5} r="2" fill="currentColor" /><path d={`M81 ${y+12.5}h35m20 0h13`} /></g>)}
+          <path d="M165 73h28m0-30v60m0-60h19m-19 60h19" />
+          <rect x="212" y="32" width="26" height="22" rx="4" /><rect x="212" y="92" width="26" height="22" rx="4" />
         </>}
       </svg>
     </div>
