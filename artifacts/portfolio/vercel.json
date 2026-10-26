@@ -17,5 +17,7 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "buildCommand": "PORT=5173 BASE_PATH=/ VITE_IMAGE_UPLOADS_ENABLED=false pnpm run build",
+  "outputDirectory": "dist/public"
 }

@@ -8,6 +8,9 @@ import { imageDirectory, isImageFilename, InvalidImageError, MAX_IMAGE_BYTES, st
 const router: IRouter = Router();
 
 router.post("/images", requireOwner, (req, res, next) => {
+  if (process.env.IMAGE_UPLOADS_ENABLED === "false") {
+    res.status(503).json({ error: "File uploads are unavailable. Use an HTTPS image URL instead." }); return;
+  }
   if (!req.is("application/octet-stream")) {
     res.status(415).json({ error: "Upload PNG, JPEG, or WebP image bytes." }); return;
   }

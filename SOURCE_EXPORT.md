@@ -101,3 +101,19 @@ Visit `/admin`, authenticate with the configured owner's email, and verify it. U
 The owner editor accepts PNG, JPEG, and WebP cover images up to 5 MiB (40 megapixels). The API decodes, auto-orients, downsizes to at most 2400px, strips metadata, and saves WebP files. No database schema change is required: the existing imageUrl field stores the server-issued path. HTTPS cover URLs already saved remain supported.
 
 Files live in `artifacts/api-server/uploads` when running the API from its package directory. Set `UPLOAD_DIR` to an absolute persistent-volume directory in production, and back it up alongside the database. Container or ephemeral hosting without a persistent volume will lose uploads on replacement. Keep `/api/images` routed to the API; do not expose the upload folder as a static directory. Unattached and draft images require owner access; images referenced by published content are public. Unpublishing revokes future public image requests. Replacing or removing a cover does not delete the underlying file. Uploads are not included in source exports.
+
+## Free Render deployment
+
+The Vercel configuration builds the editor with `VITE_IMAGE_UPLOADS_ENABLED=false`.
+The editor accepts HTTPS cover-image URLs. Existing uploaded covers are preserved
+when editing content unless the owner replaces or removes them.
+
+On Render Free, set `IMAGE_UPLOADS_ENABLED=false` in the API environment and do not
+attach a disk. This rejects new file uploads on the server even if a client tries
+to submit one directly. Existing local image files are not durable on this plan;
+host covers externally or commit public images to the frontend's public assets,
+then use their full HTTPS URL. Do not commit private or draft image assets.
+
+PostgreSQL content lives in Neon and is independent of the API filesystem. The
+free API can sleep after inactivity; public API requests may need to wait for it
+to start. No snapshot of current database content is included in this source.

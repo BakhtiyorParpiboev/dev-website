@@ -28,6 +28,7 @@ import { useSeo } from "@/lib/seo";
 import { formatDate } from "@/components/site";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const imageUploadsEnabled = import.meta.env.VITE_IMAGE_UPLOADS_ENABLED !== "false";
 const inputCls = "w-full rounded-xl border border-input bg-card px-3.5 py-2.5 text-[15px] outline-none transition-shadow focus:border-[hsl(var(--green))] focus:shadow-[0_0_0_3px_hsl(var(--green)/0.12)]";
 
 function errMsg(e: unknown) {
@@ -165,7 +166,10 @@ function Editor({ open, onClose, initial }: { open: boolean; onClose: () => void
           <Field label="Body" hint="Plain text. Blank line = new paragraph. Lines starting with ## become headings, - become lists, ``` fences become code."><textarea data-testid="input-body" rows={10} maxLength={100000} className={`${inputCls} font-mono text-[13px]`} value={form.body} onChange={(e) => set("body", e.target.value)} /></Field>
           <Field label="Tags" hint="Comma separated. The tag 'example' marks an entry as an example."><input data-testid="input-tags" className={inputCls} value={tagText} onChange={(e) => setTagText(e.target.value)} /></Field>
           <div className="space-y-3 rounded-2xl border border-border p-4">
-            <Field label="Cover image" hint="Upload PNG, JPEG, or WebP, up to 5 MB. Changes apply when you save.">
+            <Field label="Cover image URL" hint="Paste an HTTPS image URL. Changes apply when you save.">
+              <input data-testid="input-image-url" type="url" pattern="https://.*" maxLength={2000} disabled={pending} className={inputCls} placeholder="https://example.com/cover.webp" value={form.imageUrl.startsWith("/api/images/") ? "" : form.imageUrl} onChange={(e) => { setImageFile(null); setImageError(""); set("imageUrl", e.target.value); }} />
+            </Field>
+            {imageUploadsEnabled && <Field label="Upload cover image" hint="Upload PNG, JPEG, or WebP, up to 5 MB. Changes apply when you save.">
               <input id="cover-image" data-testid="input-image" type="file" accept="image/png,image/jpeg,image/webp" disabled={pending} aria-invalid={!!imageError} aria-describedby={imageError ? "image-error" : undefined} className={`${inputCls} file:mr-3 file:rounded-full file:border-0 file:bg-secondary file:px-3 file:py-1 file:text-sm`} onChange={(event) => {
                 const file = event.target.files?.[0];
                 event.target.value = "";
@@ -175,7 +179,8 @@ function Editor({ open, onClose, initial }: { open: boolean; onClose: () => void
                 if (file.size > 5 * 1024 * 1024) { setImageError("Choose an image no larger than 5 MB."); return; }
                 setImageFile(file);
               }} />
-            </Field>
+            </Field>}
+            {!imageUploadsEnabled && <p className="text-xs text-muted-foreground">Use an image URL for cover images. File uploads are unavailable on this site.</p>}
             {imageError && <p id="image-error" role="alert" className="text-sm text-destructive">{imageError}</p>}
             {(imagePreview || form.imageUrl) && <div className="space-y-2">
               <img src={imagePreview || form.imageUrl} alt="Selected cover preview" width="640" height="360" className="max-h-52 w-full rounded-xl bg-secondary object-contain" />
