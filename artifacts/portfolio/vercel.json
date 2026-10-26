@@ -3,15 +3,15 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.bakhtiyor.me/api/:path*"
+      "destination": "https://bakhtiyor-portfolio-api.onrender.com/api/:path*"
     },
     {
       "source": "/sitemap.xml",
-      "destination": "https://api.bakhtiyor.me/sitemap.xml"
+      "destination": "https://bakhtiyor-portfolio-api.onrender.com/sitemap.xml"
     },
     {
       "source": "/robots.txt",
-      "destination": "https://api.bakhtiyor.me/robots.txt"
+      "destination": "https://bakhtiyor-portfolio-api.onrender.com/robots.txt"
     },
     {
       "source": "/(.*)",
