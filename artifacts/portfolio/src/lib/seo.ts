@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const SITE = "Parpiboev Bakhtiyor";
-const siteUrl = (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, "");
+const siteUrl = new URL((import.meta.env.VITE_SITE_URL as string | undefined) || "https://bakhtiyor.me").origin;
 
 function setMeta(attr: "name" | "property", key: string, value: string) {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
@@ -34,8 +34,9 @@ export function useSeo(opts: { title: string; description: string; path?: string
       }
       link.href = `${siteUrl}${path}`;
       setMeta("property", "og:url", `${siteUrl}${path}`);
-    } else if (link) {
-      link.remove();
+    } else {
+      link?.remove();
+      document.head.querySelector('meta[property="og:url"]')?.remove();
     }
   }, [title, description, path, noindex, type]);
 }

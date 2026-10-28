@@ -1,2 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Allow: /api/profile
+Allow: /api/content
+Allow: /api/images/
+
+Sitemap: https://bakhtiyor.me/sitemap.xml

@@ -60,6 +60,7 @@ The server seeds the initial profile and clearly labeled examples only once. Exi
 pnpm run typecheck
 pnpm test
 PORT=5173 BASE_PATH=/ pnpm run build
+pnpm --filter @workspace/portfolio run test:seo
 ```
 
 GitHub Actions runs these checks on pushes and pull requests. Builds do not require production secrets or a database connection. A runnable deployment does require the environment described above.
@@ -88,3 +89,7 @@ See [SOURCE_EXPORT.md](SOURCE_EXPORT.md) for deployment, routing, and persistent
 ## Before publishing
 
 Review the files being committed. Keep real `.env` files, database backups, local session state, dependencies, build output, and uploaded content out of Git. Public assets, including the owner's portrait, are intentionally part of the source. Configure the actual deployed domain for canonical metadata and Clerk before launch.
+
+## Search indexing
+
+See [SEO_AUDIT.md](SEO_AUDIT.md) for the October 2026 audit, verified results, and Search Console steps. The Vite build emits static metadata shells for the homepage, project/blog lists, and current focus; article text still requires JavaScript and the public API. Keep the route-specific rewrites and custom 404 in `artifacts/portfolio/vercel.json` when deploying.

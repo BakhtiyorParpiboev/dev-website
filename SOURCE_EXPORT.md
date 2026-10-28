@@ -37,8 +37,8 @@ Configure these through your host's environment/secret settings; values are deli
 | `ADMIN_EMAIL` | API | Sole authorized owner's verified email |
 | `PORT` | Each service | Service's own listening port |
 | `BASE_PATH` | Vite | Frontend mount path; `/` for the portfolio |
-| `SITE_URL` | API, optional | Actual canonical public origin |
-| `VITE_SITE_URL` | Frontend, optional | Same origin for canonical metadata |
+| `SITE_URL` | API, optional | Actual canonical public origin; defaults to `https://bakhtiyor.me` |
+| `VITE_SITE_URL` | Frontend, optional | Same canonical origin; defaults to `https://bakhtiyor.me` |
 
 Configure a Clerk application for the destination domain. The existing frontend supports `VITE_CLERK_PROXY_URL`; the backend retains its production Clerk proxy. Use a proxy URL only when it is configured for that Clerk instance and domain. Keep matching frontend/backend Clerk keys and verified owner authorization.
 
@@ -78,10 +78,11 @@ The app expects **same-origin routing**:
 | --- | --- |
 | `/api` and subpaths | API service |
 | `/sitemap.xml` | API service |
-| `/robots.txt` | API service |
-| All other paths | Portfolio frontend |
+| `/robots.txt` | Frontend static asset (API also serves matching rules for local development) |
+| Public pages and auth routes | Portfolio frontend using the route-specific rewrites in `artifacts/portfolio/vercel.json` |
+| Unknown paths | Frontend `404.html` with HTTP 404 |
 
-Configure a reverse proxy with frontend history fallback. For local development, use `API_PORT=5000` with Vite as described in `README.md`. Starting the two services on separate ports alone does not establish this routing. Keep API URLs relative; do not hardcode localhost into browser code.
+Configure a reverse proxy with fallback only for the supported React routes (`/projects/:slug`, `/blog/:slug`, `/admin`, and sign-in/sign-up callback paths). Serve the generated `seo/*.html` metadata shells at their public routes as defined in `vercel.json`; leave the article shell canonical-free. Do not rewrite every unknown URL to HTTP 200. For local development, use `API_PORT=5000` with Vite as described in `README.md`. Starting the two services on separate ports alone does not establish this routing. Keep API URLs relative; do not hardcode localhost into browser code.
 
 For a production build, supply the frontend build environment and run each package's build:
 
@@ -90,7 +91,7 @@ pnpm --filter @workspace/portfolio run build
 pnpm --filter @workspace/api-server run build
 ```
 
-The frontend output is `artifacts/portfolio/dist/public`. The API entry point is `artifacts/api-server/dist/index.mjs`. Build output is ignored by Git.
+The frontend output is `artifacts/portfolio/dist/public`, including generated `seo/*.html` metadata shells and a custom `404.html`. These shells contain metadata, not server-rendered article text. On another domain, update both origin variables and the static `public/robots.txt` sitemap URL together. The API entry point is `artifacts/api-server/dist/index.mjs`. Build output is ignored by Git.
 
 ## Editing content
 

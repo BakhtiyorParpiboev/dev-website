@@ -10,12 +10,16 @@ export default function ContentDetail({ kind }: { kind: "project" | "blog" }) {
   const q = useGetContent(slug);
   const item = q.data && q.data.kind === kind ? q.data : undefined;
   const base = kind === "project" ? "/projects" : "/blog";
+  const isNotFound = q.error instanceof Error && "status" in q.error && q.error.status === 404;
+  const hasLoadError = q.isError && !isNotFound;
+  const isMissing = !q.isLoading && !q.isError && !item;
   useSeo({
     title: item?.title ?? (kind === "project" ? "Project" : "Post"),
     description: item?.summary || "Work and writing by Parpiboev Bakhtiyor, software engineer.",
     path: `${base}/${slug}`,
     type: kind === "blog" ? "article" : "website",
-    noindex: !q.isLoading && !item,
+    // A temporary API/network failure must not deindex a published article.
+    noindex: Boolean(item && !item.published) || isMissing || isNotFound,
   });
 
   return (
@@ -28,8 +32,8 @@ export default function ContentDetail({ kind }: { kind: "project" | "blog" }) {
           <div className="mt-12 space-y-5"><Skeleton className="h-14 w-4/5" /><Skeleton className="h-5 w-2/3" /><Skeleton className="mt-10 h-64 w-full" /></div>
         ) : !item ? (
           <div className="mt-16">
-            <h1 className="text-4xl font-medium tracking-tight">Not found.</h1>
-            <p className="mt-4 text-muted-foreground">This {kind === "project" ? "project" : "post"} doesn't exist or isn't published.</p>
+            <h1 className="text-4xl font-medium tracking-tight">{hasLoadError ? "Couldn’t load this page." : "Not found."}</h1>
+            <p className="mt-4 text-muted-foreground">{hasLoadError ? "The content service is temporarily unavailable. Please try again." : `This ${kind === "project" ? "project" : "post"} doesn't exist or isn't published.`}</p>
             {q.isError && <button type="button" onClick={() => q.refetch()} className="mt-6 link-underline">Try again</button>}
           </div>
         ) : (

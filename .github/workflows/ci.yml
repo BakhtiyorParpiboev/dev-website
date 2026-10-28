@@ -26,3 +26,4 @@ jobs:
         env:
           PORT: 5173
           BASE_PATH: /
+      - run: pnpm --filter @workspace/portfolio run test:seo

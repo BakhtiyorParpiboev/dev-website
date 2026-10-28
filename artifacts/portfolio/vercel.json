@@ -10,14 +10,88 @@
       "destination": "https://bakhtiyor-portfolio-api.onrender.com/sitemap.xml"
     },
     {
-      "source": "/robots.txt",
-      "destination": "https://bakhtiyor-portfolio-api.onrender.com/robots.txt"
+      "source": "/",
+      "destination": "/seo/home.html"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/projects",
+      "destination": "/seo/projects.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/seo/blog.html"
+    },
+    {
+      "source": "/working-on",
+      "destination": "/seo/working-on.html"
+    },
+    {
+      "source": "/projects/:slug",
+      "destination": "/seo/article.html"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/seo/article.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/seo/private.html"
+    },
+    {
+      "source": "/sign-in/:path*",
+      "destination": "/seo/private.html"
+    },
+    {
+      "source": "/sign-up/:path*",
+      "destination": "/seo/private.html"
     }
   ],
   "buildCommand": "PORT=5173 BASE_PATH=/ VITE_IMAGE_UPLOADS_ENABLED=false pnpm run build",
-  "outputDirectory": "dist/public"
+  "outputDirectory": "dist/public",
+  "headers": [
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/sign-in/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/sign-up/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": false
 }
