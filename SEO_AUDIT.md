@@ -2,6 +2,21 @@
 
 Audit date: October 28, 2026 (Asia/Seoul). Code fixes are local and have **not been deployed**. No production content, database schema, authentication settings, or DNS records were changed.
 
+## Search Console follow-up — October 28, 2026 (KST)
+
+This follow-up supersedes the earlier access/submission limitations below; the original audit is retained as historical evidence.
+
+- Domain ownership is verified. The supplied Google verification TXT record was saved at Gabia and resolved through both its authoritative nameserver and Google's public DNS.
+- Search Console property access works under the owner's university Google account. The different Google account signed in to Chrome does not have property access; it was not granted additional access.
+- Submitted `https://bakhtiyor.me/sitemap.xml`. Search Console first reported “Couldn't fetch,” then changed to **Success**, type **Sitemap**, with **8 discovered pages** and last read October 28, 2026. No duplicate submission was needed.
+- The initial homepage URL Inspection report said **“URL is not on Google”** and **“URL is unknown to Google.”** No referring sitemap, previous crawl, or Google-selected canonical was reported at that point.
+- Google's live homepage test passed: **URL is available to Google**, **Page can be indexed**, smartphone inspection fetch successful, crawl allowed, indexing allowed, and user-declared canonical `https://bakhtiyor.me/`. Google-selected canonical is only determined after indexing. Tested-page HTML was available; this is not a full article-rendering audit.
+- Requested homepage indexing through URL Inspection. Google confirmed **“Indexing requested”** and said the URL was added to a priority crawl queue. This confirms the request, not actual indexing or rankings. Other URLs are covered by the submitted sitemap; individual indexing requests were not made for them.
+- A live sitemap request returned valid eight-URL XML in **14.69 seconds**; a subsequent Googlebot-user-agent request returned HTTP 200 in **0.67 seconds**. A cold start may have contributed to the initial fetch problem, but this is an inference, not a confirmed Google error cause.
+- No production deployment was performed by this assistant. The live sitemap observed during this follow-up still has eight URLs, rather than the nine returned by the locally updated handler. Production rollout/verification of the earlier code changes remains separate.
+
+Evidence screenshots are saved locally at `/tmp/search-console-sitemap-success.jpg` and `/tmp/search-console-indexing-requested.jpg`. Keep the DNS TXT record and allow Google to process the crawl queue. Coverage/performance reports initially said they were processing data. No recurring monitor was created.
+
 ## 1. Website Status
 
 | Check | Observed result |

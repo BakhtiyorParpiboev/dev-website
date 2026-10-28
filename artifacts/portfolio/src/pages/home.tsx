@@ -175,7 +175,7 @@ function ContactRow({ href, icon, label, value, testId }: { href?: string; icon:
 }
 
 export default function Home() {
-  useSeo({ title: "Parpiboev Bakhtiyor", description: "Parpiboev Bakhtiyor is a software engineer building full-stack applications with AI integrations. Projects, writing, and current focus.", path: "/" });
+  useSeo({ title: "Parpiboev Bakhtiyor", description: "Parpiboev Bakhtiyor is a software engineer building full-stack applications with AI integrations. Offering Software Design, backend architectures, from zero to deployment.", path: "/" });
   const profileQ = useGetProfile();
   const projectsQ = useListContent({ kind: "project" });
   const profile = profileQ.data;
