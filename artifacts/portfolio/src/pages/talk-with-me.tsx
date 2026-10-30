@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "wouter";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { ArrowLeft, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 import { useCreateVisitorMessage, useGetProfile } from "@workspace/api-client-react";
 import { PublicShell } from "@/components/site";
@@ -24,20 +24,28 @@ function ContactRow({ href, icon, label, value, testId }: { href?: string; icon:
 
 function MessageForm() {
   const send = useCreateVisitorMessage();
+  const [, navigate] = useLocation();
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState("");
   const [notice, setNotice] = useState<{ text: string; kind: "success" | "error" } | null>(null);
 
+  useEffect(() => {
+    if (notice?.kind !== "success") return;
+    const timer = window.setTimeout(() => navigate("/"), 3000);
+    return () => window.clearTimeout(timer);
+  }, [notice, navigate]);
+
   return (
     <form className="contact-form" onSubmit={(event) => {
       event.preventDefault();
+      if (send.isPending || notice?.kind === "success") return;
       if (!name.trim() || !message.trim()) {
         setNotice({ text: "Please enter your name and a message.", kind: "error" }); return;
       }
       setNotice(null);
       send.mutate({ data: { name: name.trim(), message: message.trim(), website } }, {
-        onSuccess: () => { setName(""); setMessage(""); setWebsite(""); setNotice({ text: "Thanks for sharing your message.", kind: "success" }); },
+        onSuccess: () => { setName(""); setMessage(""); setWebsite(""); setNotice({ text: "Your message has been sent. Taking you back home…", kind: "success" }); },
         onError: () => setNotice({ text: "Your message couldn't be sent. Please try again or use email.", kind: "error" }),
       });
     }}>
@@ -49,7 +57,7 @@ function MessageForm() {
         <label htmlFor="visitor-website">Website</label><input id="visitor-website" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)} />
       </div>
       <div className="contact-form-footer">
-        <button type="submit" disabled={send.isPending}>{send.isPending ? "Sending…" : "Send message"}<ArrowUpRight aria-hidden="true" size={16} /></button>
+        <button type="submit" disabled={send.isPending || notice?.kind === "success"}>{send.isPending ? "Sending…" : notice?.kind === "success" ? "Message sent" : "Send message"}<ArrowUpRight aria-hidden="true" size={16} /></button>
         <span>{message.length} / 2000</span>
       </div>
       <p className={`contact-form-notice ${notice?.kind === "error" ? "is-error" : ""}`} role="status" aria-live="polite">{notice?.text || " "}</p>
