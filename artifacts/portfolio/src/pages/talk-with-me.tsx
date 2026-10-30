@@ -41,12 +41,6 @@ function MessageForm() {
         onError: () => setNotice({ text: "Your message couldn't be sent. Please try again or use email.", kind: "error" }),
       });
     }}>
-      <div className="contact-form-heading">
-        <span className="contact-form-number" aria-hidden="true">01 / MESSAGE</span>
-        <h2>Leave a note.</h2>
-        <p>Have a thought about the site, a project, or an opportunity? I’d love to hear it.</p>
-      </div>
-      <p className="contact-reply-note">Want a reply? Please include your email or another way to reach you in your message.</p>
       <label htmlFor="visitor-name">Your name</label>
       <input id="visitor-name" name="name" autoComplete="name" maxLength={100} required value={name} onChange={(event) => setName(event.target.value)} placeholder="What should I call you?" />
       <label htmlFor="visitor-message">Your message</label>
