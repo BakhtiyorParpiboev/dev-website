@@ -692,4 +692,10 @@ a.contact-row:hover > span:first-child > span:first-child { background-color: hs
 .talk-details-intro > p:last-child { margin-top: 1rem; color: hsl(var(--muted-foreground)); line-height: 1.6; }
 .talk-links { margin-top: 2.5rem; border-bottom: 1px solid hsl(var(--border)); }
 .talk-links .contact-row { min-height: 6.5rem; }
-@media (max-width: 640px) { .talk-page { padding: 7.5rem 1.25rem 5rem; } .talk-header h1 { margin-top: 2.5rem; } }
+.mobile-nav-action { display: inline-flex; width: min(100%, 13rem); min-height: 44px; align-items: center; justify-content: center; padding: .625rem 1.25rem; font-size: .875rem; font-weight: 500; line-height: 1.25rem; }
+@media (max-width: 767px) {
+  .talk-page { padding: 7.5rem 1.25rem 5rem; }
+  .talk-header h1 { margin-top: 2.5rem; font-size: clamp(3.25rem, 13vw, 5rem); }
+  .talk-page .contact-form input, .talk-page .contact-form textarea { font-size: 1rem; }
+  .talk-links .contact-row { min-height: 5.5rem; }
+}

@@ -84,7 +84,7 @@ export function SiteHeader() {
       <Link href="/projects" onClick={() => setOpen(false)} data-testid="link-nav-projects" className={`${mobile ? "py-3 text-2xl" : "px-3 py-1.5 text-[13.5px]"} rounded-full text-foreground/70 transition-colors hover:text-foreground`}>Projects</Link>
       <Link href="/blog" onClick={() => setOpen(false)} data-testid="link-nav-blog" className={`${mobile ? "py-3 text-2xl" : "px-3 py-1.5 text-[13.5px]"} rounded-full text-foreground/70 transition-colors hover:text-foreground`}>Blog</Link>
       <button type="button" onClick={() => { setOpen(false); go("about"); }} data-testid="link-nav-about" className={`${mobile ? "py-3 text-left text-2xl" : "px-3 py-1.5 text-[13.5px]"} rounded-full text-foreground/70 transition-colors hover:text-foreground`}>About</button>
-      <Link href="/working-on" onClick={() => setOpen(false)} data-testid="link-nav-working-on" className={`${mobile ? "py-3 text-left text-2xl" : "ml-1 px-3.5 py-1.5 text-[13.5px]"} group inline-flex items-center gap-2 rounded-full border border-[hsl(var(--green)/0.25)] bg-[hsl(var(--green)/0.06)] text-[hsl(152_62%_26%)] transition-colors hover:bg-[hsl(var(--green)/0.11)] ${mobile ? "w-fit px-4" : ""}`}>
+      <Link href="/working-on" onClick={() => setOpen(false)} data-testid="link-nav-working-on" className={`${mobile ? "mobile-nav-action" : "ml-1 px-3.5 py-1.5 text-[13.5px]"} group inline-flex items-center gap-2 rounded-full border border-[hsl(var(--green)/0.25)] bg-[hsl(var(--green)/0.06)] text-[hsl(152_62%_26%)] transition-colors hover:bg-[hsl(var(--green)/0.11)]`}>
         <span className="pulse-dot relative inline-block h-1.5 w-1.5 rounded-full bg-[hsl(var(--green))]" />
         Working on
       </Link>
@@ -108,9 +108,9 @@ export function SiteHeader() {
         </div>
       </div>
       {open && (
-        <nav id="mobile-navigation" aria-label="Mobile" className="flex flex-col gap-1 border-t border-border px-6 pb-8 pt-4 md:hidden">
+        <nav id="mobile-navigation" aria-label="Mobile" className="flex max-h-[calc(100dvh-4rem)] flex-col gap-1 overflow-y-auto border-t border-border px-6 pb-8 pt-4 md:hidden">
           {nav(true)}
-          <Link href="/talkwithme" onClick={() => setOpen(false)} className="mt-4 w-fit rounded-full bg-foreground px-5 py-2.5 text-sm text-background">Let's talk</Link>
+          <Link href="/talkwithme" onClick={() => setOpen(false)} className="mobile-nav-action mt-3 rounded-full bg-foreground text-background">Let's talk</Link>
         </nav>
       )}
     </header>
@@ -122,7 +122,7 @@ export function SiteFooter() {
   const go = useSectionNav();
   return (
     <footer className="site-footer border-t border-border">
-      <div className="mx-auto flex max-w-[1240px] flex-col gap-4 px-5 py-10 text-[13px] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-8">
+      <div className="mx-auto flex max-w-[1240px] flex-col gap-5 px-5 py-10 text-[13px] text-muted-foreground md:px-8 lg:flex-row lg:items-center lg:justify-between">
         <p>{profile?.fullName || "Parpiboev Bakhtiyor"} <span className="mx-2 text-border">/</span> Software Engineer</p>
         <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-3">
           <Link href="/" className="link-underline hover:text-foreground">Home</Link>

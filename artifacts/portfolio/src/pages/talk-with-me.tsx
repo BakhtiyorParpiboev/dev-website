@@ -8,9 +8,9 @@ import { useSeo } from "@/lib/seo";
 function ContactRow({ href, icon, label, value, testId }: { href?: string; icon: React.ReactNode; label: string; value: string; testId: string }) {
   const content = (
     <>
-      <span className="flex items-center gap-4">
+      <span className="flex min-w-0 items-center gap-4">
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary">{icon}</span>
-        <span>
+        <span className="min-w-0">
           <span className="block text-[13px] text-muted-foreground">{label}</span>
           <span className={`block break-all text-base md:text-lg ${href ? "" : "text-muted-foreground"}`}>{value}</span>
         </span>
