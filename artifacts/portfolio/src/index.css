@@ -477,6 +477,22 @@ body { font-feature-settings: "ss01"; letter-spacing: -0.003em; }
   color: hsl(var(--foreground));
 }
 .contact-section .eyebrow { color: hsl(var(--green)); }
+.contact-form { max-width: 31rem; margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid hsl(var(--border)); }
+.contact-form-number { color: hsl(var(--green)); font: .6875rem var(--app-font-mono); letter-spacing: .1em; }
+.contact-form h3 { margin-top: .8rem; font-size: 1.75rem; letter-spacing: -.035em; }
+.contact-form-heading p { margin: .6rem 0 1.75rem; color: hsl(var(--foreground) / .6); line-height: 1.6; }
+.contact-form label { display: block; margin: 1.25rem 0 .5rem; font-size: .8125rem; font-weight: 500; }
+.contact-form input, .contact-form textarea { display: block; width: 100%; padding: .875rem 1rem; border: 1px solid hsl(var(--border)); border-radius: .75rem; background: hsl(var(--background)); color: hsl(var(--foreground)); font: inherit; }
+.contact-form textarea { resize: vertical; min-height: 8rem; }
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: hsl(var(--muted-foreground)); opacity: 1; }
+.contact-form-trap { display: none; }
+.contact-form-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.2rem; }
+.contact-form-footer button { display: inline-flex; align-items: center; gap: .6rem; border-radius: 9999px; background: hsl(var(--foreground)); color: hsl(var(--background)); padding: .85rem 1.25rem; font-size: .875rem; font-weight: 500; transition: background-color .2s; }
+.contact-form-footer button:hover:not(:disabled) { background: hsl(var(--green)); }
+.contact-form-footer button:disabled { opacity: .6; cursor: wait; }
+.contact-form-footer span { color: hsl(var(--muted-foreground)); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.contact-form-notice { min-height: 1.5rem; margin-top: .8rem; color: hsl(var(--green)); font-size: .875rem; }
+.contact-form-notice.is-error { color: #a72727; }
 .contact-row { gap: 1rem; transition: border-color .2s; }
 .contact-row > span:first-child > span:first-child { color: hsl(var(--green)); transition: background-color .2s, color .2s; }
 a.contact-row:hover { border-color: hsl(var(--green) / .6); }

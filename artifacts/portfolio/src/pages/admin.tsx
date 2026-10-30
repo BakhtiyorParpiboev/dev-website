@@ -12,6 +12,7 @@ import {
   useGetAdminSession,
   useGetProfile,
   useListContent,
+  useListVisitorMessages,
   useUpdateContent,
   useUpdateProfile,
   useUploadImage,
@@ -352,12 +353,31 @@ function ProfileEditor() {
   );
 }
 
+function MessageInbox() {
+  const messages = useListVisitorMessages({ query: { retry: false, gcTime: 0, refetchOnWindowFocus: true } });
+  const formatter = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
+
+  return <section aria-labelledby="inbox-title">
+    <div className="flex flex-wrap items-end justify-between gap-4">
+      <div><h2 id="inbox-title" className="text-2xl font-medium tracking-tight">Messages</h2><p className="mt-2 text-sm text-muted-foreground">The latest 200 notes from visitors. Only the verified owner can view them.</p></div>
+      <button type="button" onClick={() => messages.refetch()} disabled={messages.isFetching} className="rounded-full border border-border px-4 py-2 text-sm hover:bg-secondary disabled:opacity-50">{messages.isFetching ? "Refreshing…" : "Refresh"}</button>
+    </div>
+    {messages.isLoading ? <p className="mt-6 text-sm text-muted-foreground" role="status">Loading messages…</p>
+      : messages.isError ? <p className="mt-6 text-sm text-destructive" role="alert">Messages couldn't load. Please try again.</p>
+      : !messages.data?.length ? <p className="mt-6 border-t border-border py-8 text-muted-foreground">No messages yet. Notes from visitors will appear here.</p>
+      : <ol className="mt-6 border-t border-border">{messages.data.map((item) => <li key={item.id} className="border-b border-border py-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-2"><h3 className="min-w-0 break-words font-medium">{item.name}</h3><time className="text-xs text-muted-foreground" dateTime={item.createdAt}>{formatter.format(new Date(item.createdAt))}</time></div>
+        <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground/75">{item.message}</p>
+      </li>)}</ol>}
+  </section>;
+}
+
 export default function Admin() {
   useSeo({ title: "Owner studio", description: "Private content management.", noindex: true });
   const session = useGetAdminSession();
   const { user } = useUser();
   const { signOut } = useClerk();
-  const [tab, setTab] = useState<"content" | "profile">("content");
+  const [tab, setTab] = useState<"content" | "profile" | "messages">("content");
   const s = session.data;
 
   const signOutBtn = <button type="button" data-testid="button-sign-out" onClick={() => signOut({ redirectUrl: basePath || "/" })} className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm hover:bg-secondary"><LogOut className="h-4 w-4" /> Sign out</button>;
@@ -381,11 +401,11 @@ export default function Admin() {
         {signOutBtn}
       </div>
       <nav aria-label="Studio" className="mt-10 flex gap-6 border-b border-border">
-        {(["content", "profile"] as const).map((t) => (
+        {(["content", "profile", "messages"] as const).map((t) => (
           <button key={t} type="button" data-testid={`tab-studio-${t}`} onClick={() => setTab(t)} className={`-mb-px border-b-2 pb-3 text-sm capitalize transition-colors ${tab === t ? "border-foreground text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}>{t}</button>
         ))}
       </nav>
-      <div className="mt-10">{tab === "content" ? <ContentManager /> : <ProfileEditor />}</div>
+      <div className="mt-10">{tab === "content" ? <ContentManager /> : tab === "profile" ? <ProfileEditor /> : <MessageInbox />}</div>
     </Shell>
   );
 }

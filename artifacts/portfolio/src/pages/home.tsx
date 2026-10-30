@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ArrowUpRight, FileText, Github, Linkedin, Mail, Layers3 } from "lucide-react";
-import { useGetProfile, useListContent } from "@workspace/api-client-react";
+import { useCreateVisitorMessage, useGetProfile, useListContent } from "@workspace/api-client-react";
 import type { Content, Profile } from "@workspace/api-client-react";
 import { ParticleField } from "@/components/particles";
 import { ExampleBadge, PublicShell, Reveal, Tags, scrollToId } from "@/components/site";
@@ -174,6 +174,46 @@ function ContactRow({ href, icon, label, value, testId }: { href?: string; icon:
   return href ? <a href={href} target={href.startsWith("mailto") ? undefined : "_blank"} rel="noopener noreferrer" data-testid={testId} className={cls}>{content}</a> : <div data-testid={testId} className={cls}>{content}</div>;
 }
 
+function MessageForm() {
+  const send = useCreateVisitorMessage();
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
+  const [notice, setNotice] = useState<{ text: string; kind: "success" | "error" } | null>(null);
+
+  return (
+    <form className="contact-form" onSubmit={(event) => {
+      event.preventDefault();
+      if (!name.trim() || !message.trim()) {
+        setNotice({ text: "Please enter your name and a message.", kind: "error" }); return;
+      }
+      setNotice(null);
+      send.mutate({ data: { name: name.trim(), message: message.trim(), website } }, {
+        onSuccess: () => { setName(""); setMessage(""); setWebsite(""); setNotice({ text: "Thanks for sharing your message.", kind: "success" }); },
+        onError: () => setNotice({ text: "Your message couldn't be sent. Please try again or use email.", kind: "error" }),
+      });
+    }}>
+      <div className="contact-form-heading">
+        <span className="contact-form-number" aria-hidden="true">01 / MESSAGE</span>
+        <h3>Leave a note.</h3>
+        <p>Have a thought about the site or a project? I’d love to hear it.</p>
+      </div>
+      <label htmlFor="visitor-name">Your name</label>
+      <input id="visitor-name" name="name" autoComplete="name" maxLength={100} required value={name} onChange={(event) => setName(event.target.value)} placeholder="What should I call you?" />
+      <label htmlFor="visitor-message">Your message</label>
+      <textarea id="visitor-message" name="message" rows={4} maxLength={2000} required value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Share your thoughts…" />
+      <div className="contact-form-trap" aria-hidden="true">
+        <label htmlFor="visitor-website">Website</label><input id="visitor-website" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)} />
+      </div>
+      <div className="contact-form-footer">
+        <button type="submit" disabled={send.isPending}>{send.isPending ? "Sending…" : "Send message"}<ArrowUpRight aria-hidden="true" size={16} /></button>
+        <span>{message.length} / 2000</span>
+      </div>
+      <p className={`contact-form-notice ${notice?.kind === "error" ? "is-error" : ""}`} role="status" aria-live="polite">{notice?.text || " "}</p>
+    </form>
+  );
+}
+
 export default function Home() {
   useSeo({ title: "Parpiboev Bakhtiyor", description: "Parpiboev Bakhtiyor is a software engineer building full-stack applications with AI integrations. Offering Software Design, backend architectures, from zero to deployment.", path: "/" });
   const profileQ = useGetProfile();
@@ -241,6 +281,7 @@ export default function Home() {
             <p className="eyebrow">Contact</p>
             <h2 id="contact-title" className="display mt-8 text-[clamp(3rem,8vw,6.5rem)]">Let's talk.</h2>
             <p className="mt-8 max-w-md text-lg text-foreground/60">Open to roles and collaborations on full-stack and AI-integrated products.</p>
+            <MessageForm />
           </Reveal>
           <Reveal delay={120} className="self-end">
             <div className="border-b border-border">

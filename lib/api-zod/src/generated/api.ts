@@ -9,6 +9,40 @@ import * as zod from 'zod';
 
 
 /**
+ * @summary Send a message to the site owner
+ */
+export const createVisitorMessageBodyNameMax = 100;
+
+export const createVisitorMessageBodyMessageMax = 2000;
+
+export const createVisitorMessageBodyWebsiteMax = 200;
+
+
+
+export const CreateVisitorMessageBody = zod.object({
+  "name": zod.string().min(1).max(createVisitorMessageBodyNameMax),
+  "message": zod.string().min(1).max(createVisitorMessageBodyMessageMax),
+  "website": zod.string().max(createVisitorMessageBodyWebsiteMax).optional()
+})
+
+export const CreateVisitorMessageResponse = zod.object({
+  "received": zod.boolean()
+})
+
+
+/**
+ * @summary List messages for the verified site owner
+ */
+export const ListVisitorMessagesResponseItem = zod.object({
+  "id": zod.number().int(),
+  "name": zod.string(),
+  "message": zod.string(),
+  "createdAt": zod.string()
+})
+export const ListVisitorMessagesResponse = zod.array(ListVisitorMessagesResponseItem)
+
+
+/**
  * Accepts PNG, JPEG, or WebP bytes up to 5 MiB. Uploaded images remain private until referenced by published content.
  * @summary Upload a cover image (verified owner only)
  */

@@ -21,3 +21,10 @@ export const profileTable = pgTable("portfolio_profile", {
   id: integer("id").primaryKey(),
   data: jsonb("data").$type<Record<string, string>>().notNull(),
 });
+
+export const visitorMessagesTable = pgTable("visitor_messages", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+});

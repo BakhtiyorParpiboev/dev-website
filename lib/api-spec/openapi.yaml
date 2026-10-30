@@ -11,6 +11,35 @@ tags:
   - name: health
     description: Health operations
 paths:
+  /messages:
+    post:
+      operationId: createVisitorMessage
+      summary: Send a message to the site owner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/VisitorMessageInput" }
+      responses:
+        "201":
+          description: Message received
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageReceipt" }
+        "400": { description: Invalid message }
+        "429": { description: Too many messages }
+  /admin/messages:
+    get:
+      operationId: listVisitorMessages
+      summary: List messages for the verified site owner
+      responses:
+        "200":
+          description: Messages ordered newest first
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/VisitorMessage" } }
+        "401": { description: Sign-in required }
+        "403": { description: Owner access required }
   /images:
     post:
       operationId: uploadImage
@@ -144,6 +173,26 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    VisitorMessageInput:
+      type: object
+      required: [name, message]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 100 }
+        message: { type: string, minLength: 1, maxLength: 2000 }
+        website: { type: string, maxLength: 200 }
+    MessageReceipt:
+      type: object
+      required: [received]
+      properties:
+        received: { type: boolean }
+    VisitorMessage:
+      type: object
+      required: [id, name, message, createdAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        message: { type: string }
+        createdAt: { type: string }
     UploadedImage:
       type: object
       required: [url]

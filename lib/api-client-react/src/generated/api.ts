@@ -30,8 +30,11 @@ import type {
   ContentInput,
   HealthStatus,
   ListContentParams,
+  MessageReceipt,
   Profile,
-  UploadedImage
+  UploadedImage,
+  VisitorMessage,
+  VisitorMessageInput
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -60,6 +63,195 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getCreateVisitorMessageUrl = () => {
+
+
+
+
+  return `/api/messages`
+}
+
+/**
+ * @summary Send a message to the site owner
+ */
+export const createVisitorMessage = async (visitorMessageInput: VisitorMessageInput, options?: Parameters<typeof customFetch>[1]): Promise<MessageReceipt> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<MessageReceipt>(getCreateVisitorMessageUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(visitorMessageInput)
+  }
+);}
+
+
+
+
+
+export const getCreateVisitorMessageMutationKey = () => ['createVisitorMessage'] as const;
+
+export const getCreateVisitorMessageMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createVisitorMessage>>, TError,CreateVisitorMessageMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createVisitorMessage>>, TError,CreateVisitorMessageMutationVariables, TContext> => {
+
+const mutationKey = getCreateVisitorMessageMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createVisitorMessage>>, CreateVisitorMessageMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createVisitorMessage(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateVisitorMessageMutationResult = NonNullable<Awaited<ReturnType<typeof createVisitorMessage>>>
+    export type CreateVisitorMessageMutationBody = BodyType<VisitorMessageInput>
+    export type CreateVisitorMessageMutationError = ErrorType<void>
+    export type CreateVisitorMessageMutationVariables = {data: BodyType<VisitorMessageInput>}
+
+    /**
+ * @summary Send a message to the site owner
+ */
+export const useCreateVisitorMessage = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createVisitorMessage>>, TError,CreateVisitorMessageMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createVisitorMessage>>,
+        TError,
+        CreateVisitorMessageMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateVisitorMessageMutationOptions(options), queryClient);
+    }
+
+export const getListVisitorMessagesUrl = () => {
+
+
+
+
+  return `/api/admin/messages`
+}
+
+/**
+ * @summary List messages for the verified site owner
+ */
+export const listVisitorMessages = async ( options?: Parameters<typeof customFetch>[1]): Promise<VisitorMessage[]> => {
+
+  return customFetch<VisitorMessage[]>(getListVisitorMessagesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListVisitorMessagesQueryKey = () => {
+    return [
+    `/api/admin/messages`
+    ] as const;
+    }
+
+
+export const getListVisitorMessagesQueryOptions = <TData = Awaited<ReturnType<typeof listVisitorMessages>>, TError = ErrorType<void>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVisitorMessages>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListVisitorMessagesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listVisitorMessages>>> = ({ signal }) => listVisitorMessages({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listVisitorMessages>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListVisitorMessagesQueryResult = NonNullable<Awaited<ReturnType<typeof listVisitorMessages>>>
+export type ListVisitorMessagesQueryError = ErrorType<void>
+
+
+export function useListVisitorMessages<TData = Awaited<ReturnType<typeof listVisitorMessages>>, TError = ErrorType<void>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVisitorMessages>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listVisitorMessages>>,
+          TError,
+          Awaited<ReturnType<typeof listVisitorMessages>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListVisitorMessages<TData = Awaited<ReturnType<typeof listVisitorMessages>>, TError = ErrorType<void>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVisitorMessages>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listVisitorMessages>>,
+          TError,
+          Awaited<ReturnType<typeof listVisitorMessages>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListVisitorMessages<TData = Awaited<ReturnType<typeof listVisitorMessages>>, TError = ErrorType<void>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVisitorMessages>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary List messages for the verified site owner
+ */
+
+export function useListVisitorMessages<TData = Awaited<ReturnType<typeof listVisitorMessages>>, TError = ErrorType<void>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listVisitorMessages>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListVisitorMessagesQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getUploadImageUrl = () => {
 

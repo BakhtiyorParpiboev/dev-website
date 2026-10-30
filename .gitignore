@@ -75,6 +75,7 @@ Thumbs.db
 /.aws/
 /.codex/
 *.sql
+!lib/db/migrations/20261030_visitor_messages.sql
 *.dump
 *.sqlite
 *.sqlite3

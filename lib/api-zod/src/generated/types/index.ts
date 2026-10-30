@@ -13,5 +13,8 @@ export * from './contentInputKind';
 export * from './healthStatus';
 export * from './listContentKind';
 export * from './listContentParams';
+export * from './messageReceipt';
 export * from './profile';
 export * from './uploadedImage';
+export * from './visitorMessage';
+export * from './visitorMessageInput';

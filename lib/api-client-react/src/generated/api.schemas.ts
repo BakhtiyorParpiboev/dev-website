@@ -5,6 +5,32 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export interface VisitorMessageInput {
+  /**
+     * @minLength 1
+     * @maxLength 100
+     */
+  name: string;
+  /**
+     * @minLength 1
+     * @maxLength 2000
+     */
+  message: string;
+  /** @maxLength 200 */
+  website?: string;
+}
+
+export interface MessageReceipt {
+  received: boolean;
+}
+
+export interface VisitorMessage {
+  id: number;
+  name: string;
+  message: string;
+  createdAt: string;
+}
+
 export interface UploadedImage {
   /** Same-origin image path under /api/images/ */
   url: string;
