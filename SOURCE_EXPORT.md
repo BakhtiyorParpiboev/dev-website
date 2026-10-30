@@ -35,6 +35,9 @@ Configure these through your host's environment/secret settings; values are deli
 | `CLERK_PUBLISHABLE_KEY` | API | Matching Clerk instance |
 | `VITE_CLERK_PUBLISHABLE_KEY` | Frontend | Matching Clerk publishable key |
 | `ADMIN_EMAIL` | API | Sole authorized owner's verified email |
+| `RESEND_API_KEY` | API, optional | Resend credential for visitor-message email alerts |
+| `MESSAGE_EMAIL_FROM` | API, optional | Sender address on a domain verified in Resend |
+| `MESSAGE_EMAIL_TO` | API, optional | Recipient of visitor-message alerts |
 | `PORT` | Each service | Service's own listening port |
 | `BASE_PATH` | Vite | Frontend mount path; `/` for the portfolio |
 | `SITE_URL` | API, optional | Actual canonical public origin; defaults to `https://bakhtiyor.me` |
@@ -96,6 +99,8 @@ The frontend output is `artifacts/portfolio/dist/public`, including generated `s
 ## Editing content
 
 Visit `/admin`, authenticate with the configured owner's email, and verify it. Use the editor for projects, blog posts, profile text, current focus, social/contact links, and document URLs. Other accounts must remain unable to edit.
+
+Visitor messages are stored in PostgreSQL. To enable optional email alerts, configure all three message-email variables on the API service; the sender domain must be verified with Resend. Delivery is best effort: if the provider is unavailable, the message remains in the owner inbox and the server logs an alert failure. No automatic email retry is currently configured.
 
 ## Cover image uploads
 

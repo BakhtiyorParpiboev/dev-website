@@ -3,6 +3,7 @@ import { desc } from "drizzle-orm";
 import { db, visitorMessagesTable } from "@workspace/db";
 import { CreateVisitorMessageBody, ListVisitorMessagesResponse } from "@workspace/api-zod";
 import { requireOwner } from "../lib/owner";
+import { notifyMessageByEmail } from "../lib/message-notifications";
 
 const router: IRouter = Router();
 
@@ -28,6 +29,7 @@ router.post("/messages", async (req, res) => {
   }
   submissions += 1;
   await db.insert(visitorMessagesTable).values({ name, message });
+  await notifyMessageByEmail(name, message);
   res.status(201).json({ received: true });
 });
 
