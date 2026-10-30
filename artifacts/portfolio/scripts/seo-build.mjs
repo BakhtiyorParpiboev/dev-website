@@ -20,6 +20,11 @@ export const publicPages = {
     description:
       "Writing by Parpiboev Bakhtiyor on building full-stack software and AI integrations.",
   },
+  talkwithme: {
+    path: "/talkwithme",
+    title: "Let’s talk — Parpiboev Bakhtiyor",
+    description: "Get in touch with Parpiboev Bakhtiyor about projects, opportunities, or ideas.",
+  },
   "working-on": {
     path: "/working-on",
     title: "Working on — Parpiboev Bakhtiyor",

@@ -22,6 +22,10 @@
       "destination": "/seo/blog.html"
     },
     {
+      "source": "/talkwithme",
+      "destination": "/seo/talkwithme.html"
+    },
+    {
       "source": "/working-on",
       "destination": "/seo/working-on.html"
     },

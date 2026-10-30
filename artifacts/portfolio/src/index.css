@@ -671,3 +671,25 @@ a.contact-row:hover > span:first-child > span:first-child { background-color: hs
 @media (prefers-reduced-motion: reduce) {
   .collection-project, .collection-item-title { transition: none; }
 }
+
+/* Dedicated contact page: a clear writing space followed by direct links. */
+.talk-page { max-width: 1240px; margin: 0 auto; padding: 9rem 2rem 8rem; }
+.talk-header { padding-bottom: clamp(3rem, 7vw, 5.5rem); border-bottom: 1px solid hsl(var(--border)); }
+.talk-topline { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.talk-header h1 { margin-top: 3.5rem; font-size: clamp(3.75rem, 9vw, 7rem); line-height: .98; letter-spacing: -.055em; font-weight: 400; }
+.talk-header h1 span, .talk-details h2 span { color: hsl(var(--green)); }
+.talk-header > p { max-width: 36rem; margin-top: 1.5rem; font-size: clamp(1.05rem, 2vw, 1.25rem); line-height: 1.6; color: hsl(var(--muted-foreground)); }
+.talk-content { max-width: 820px; margin: 0 auto; }
+.talk-page .contact-form { max-width: none; margin-top: 0; padding: clamp(3rem, 7vw, 5.5rem) 0; border-top: 0; }
+.talk-page .contact-form h2 { margin-top: .8rem; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.04em; line-height: 1.1; }
+.talk-page .contact-form-heading p { max-width: 36rem; margin-bottom: 1rem; }
+.talk-page .contact-reply-note { color: hsl(var(--muted-foreground)); font-size: .875rem; line-height: 1.6; }
+.talk-page .contact-form input, .talk-page .contact-form textarea { border-radius: .5rem; background: hsl(var(--secondary) / .35); }
+.talk-page .contact-form textarea { min-height: 11rem; }
+.talk-page .contact-form-footer button:hover:not(:disabled) { color: white; }
+.talk-details { border-top: 1px solid hsl(var(--border)); padding-top: clamp(3rem, 6vw, 5rem); }
+.talk-details h2 { margin-top: 1rem; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -.04em; }
+.talk-details-intro > p:last-child { margin-top: 1rem; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+.talk-links { margin-top: 2.5rem; border-bottom: 1px solid hsl(var(--border)); }
+.talk-links .contact-row { min-height: 6.5rem; }
+@media (max-width: 640px) { .talk-page { padding: 7.5rem 1.25rem 5rem; } .talk-header h1 { margin-top: 2.5rem; } }

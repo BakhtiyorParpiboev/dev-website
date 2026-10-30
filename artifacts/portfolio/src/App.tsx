@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import WorkingOn from "@/pages/working-on";
+import TalkWithMe from "@/pages/talk-with-me";
 import ContentList from "@/pages/content-list";
 import ContentDetail from "@/pages/content-detail";
 import Admin from "@/pages/admin";
@@ -151,6 +152,7 @@ function Routes() {
         <Route path="/projects">{() => <ContentList kind="project" />}</Route>
         <Route path="/projects/:slug">{() => <ContentDetail kind="project" />}</Route>
         <Route path="/working-on" component={WorkingOn} />
+        <Route path="/talkwithme" component={TalkWithMe} />
         <Route path="/blog">{() => <ContentList kind="blog" />}</Route>
         <Route path="/blog/:slug">{() => <ContentDetail kind="blog" />}</Route>
         <Route path="/admin" component={Admin} />

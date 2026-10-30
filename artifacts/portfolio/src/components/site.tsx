@@ -99,9 +99,9 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="Primary" className="hidden items-center md:flex">{nav(false)}</nav>
         <div className="flex items-center justify-self-end gap-2">
-          <button type="button" onClick={() => go("contact")} data-testid="button-lets-talk" className="hidden items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[13px] font-medium text-background transition-transform duration-300 hover:-translate-y-px md:inline-flex">
-            Let's talk <ArrowUpRight className="h-3.5 w-3.5" />
-          </button>
+          <Link href="/talkwithme" data-testid="button-lets-talk" className="hidden items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-[13px] font-medium text-background transition-transform duration-300 hover:-translate-y-px md:inline-flex">
+            Let's talk <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+          </Link>
           <button ref={menuButton} aria-controls="mobile-navigation" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)} data-testid="button-menu" className="inline-flex h-10 w-10 items-center justify-center rounded-full md:hidden">
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -110,7 +110,7 @@ export function SiteHeader() {
       {open && (
         <nav id="mobile-navigation" aria-label="Mobile" className="flex flex-col gap-1 border-t border-border px-6 pb-8 pt-4 md:hidden">
           {nav(true)}
-          <button type="button" onClick={() => { setOpen(false); go("contact"); }} className="mt-4 w-fit rounded-full bg-foreground px-5 py-2.5 text-sm text-background">Let's talk</button>
+          <Link href="/talkwithme" onClick={() => setOpen(false)} className="mt-4 w-fit rounded-full bg-foreground px-5 py-2.5 text-sm text-background">Let's talk</Link>
         </nav>
       )}
     </header>
@@ -119,13 +119,18 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   const { data: profile } = useGetProfile();
+  const go = useSectionNav();
   return (
     <footer className="site-footer border-t border-border">
       <div className="mx-auto flex max-w-[1240px] flex-col gap-4 px-5 py-10 text-[13px] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-8">
         <p>{profile?.fullName || "Parpiboev Bakhtiyor"} <span className="mx-2 text-border">/</span> Software Engineer</p>
-        <nav aria-label="Footer" className="flex gap-6">
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-3">
+          <Link href="/" className="link-underline hover:text-foreground">Home</Link>
           <Link href="/projects" className="link-underline hover:text-foreground">Projects</Link>
           <Link href="/blog" className="link-underline hover:text-foreground">Blog</Link>
+          <button type="button" onClick={() => go("about")} className="link-underline hover:text-foreground">About</button>
+          <Link href="/working-on" className="link-underline hover:text-foreground">Working on</Link>
+          <Link href="/talkwithme" className="link-underline hover:text-foreground">Contact</Link>
           <Link href="/admin" className="link-underline hover:text-foreground" data-testid="link-admin">Owner</Link>
         </nav>
       </div>
