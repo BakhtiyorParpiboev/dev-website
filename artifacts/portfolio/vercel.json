@@ -88,6 +88,19 @@
           "value": "noindex, nofollow"
         }
       ]
+    },
+    {
+      "source": "/work-experience.pdf",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bakhtiyor-Work-Experience.pdf\""
+        }
+      ]
     }
   ],
   "redirects": [

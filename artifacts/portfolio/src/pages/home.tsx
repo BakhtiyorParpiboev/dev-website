@@ -71,6 +71,7 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
         <div className="rise mt-8 flex flex-wrap justify-center gap-3" style={{ animationDelay: "440ms" }}>
           <DocButton primary label="Resume" url={profile?.resumeUrl || `${import.meta.env.BASE_URL}resume.pdf`} onMissing={() => setMissing("resume")} />
           <DocButton label="Portfolio" url={profile?.portfolioUrl} onMissing={() => setMissing("portfolio")} />
+          <DocButton label="상세 개발 경험 보기" url={`${import.meta.env.BASE_URL}work-experience.pdf`} onMissing={() => setMissing("work experience")} />
         </div>
         <p role="status" aria-live="polite" data-testid="text-doc-missing" className={`mt-4 min-h-[1.25rem] text-[13px] text-muted-foreground transition-opacity ${missing ? "opacity-100" : "opacity-0"}`}>
           {missing ? `The ${missing} document hasn't been added yet. Reach out below and I'll send it directly.` : ""}
