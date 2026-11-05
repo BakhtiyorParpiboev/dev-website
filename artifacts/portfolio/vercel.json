@@ -101,6 +101,19 @@
           "value": "inline; filename=\"Bakhtiyor-Work-Experience.pdf\""
         }
       ]
+    },
+    {
+      "source": "/portfolio.pdf",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bakhtiyor-Portfolio.pdf\""
+        }
+      ]
     }
   ],
   "redirects": [

@@ -107,13 +107,8 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
           />
           <DocButton
             label="Portfolio"
-            url={profile?.portfolioUrl}
+            url={`${import.meta.env.BASE_URL}portfolio.pdf`}
             onMissing={() => setMissing("portfolio")}
-          />
-          <DocButton
-            label="Work-experience"
-            url={`${import.meta.env.BASE_URL}work-experience.pdf`}
-            onMissing={() => setMissing("work experience")}
           />
         </div>
         <p
