@@ -3,12 +3,15 @@ import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
 import { useGetContent } from "@workspace/api-client-react";
 import { ArticleBody, ExampleBadge, PublicShell, Tags, formatDate } from "@/components/site";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ProjectGallery } from "@/components/project-gallery";
+import { projectGalleries } from "@/lib/project-galleries";
 import { useSeo } from "@/lib/seo";
 
 export default function ContentDetail({ kind }: { kind: "project" | "blog" }) {
   const { slug = "" } = useParams<{ slug: string }>();
   const q = useGetContent(slug);
   const item = q.data && q.data.kind === kind ? q.data : undefined;
+  const gallery = kind === "project" ? projectGalleries[slug] : undefined;
   const base = kind === "project" ? "/projects" : "/blog";
   const isNotFound = q.error instanceof Error && "status" in q.error && q.error.status === 404;
   const hasLoadError = q.isError && !isNotFound;
@@ -51,7 +54,7 @@ export default function ContentDetail({ kind }: { kind: "project" | "blog" }) {
                 {item.sourceUrl && <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer" data-testid="link-source" className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm hover:border-foreground/40"><Github className="h-3.5 w-3.5" /> Source</a>}
               </div>
             </header>
-            {item.imageUrl && (
+            {gallery ? <ProjectGallery key={slug} gallery={gallery} title={item.title} /> : item.imageUrl && (
               <figure className="rise -mx-5 mt-14 overflow-hidden md:-mx-16 md:rounded-3xl" style={{ animationDelay: "300ms" }}>
                 <img src={item.imageUrl} alt={`${item.title} preview`} className="w-full bg-secondary object-cover" loading="lazy" />
               </figure>
