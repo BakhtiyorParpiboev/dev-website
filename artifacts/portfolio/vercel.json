@@ -114,6 +114,19 @@
           "value": "inline; filename=\"Bakhtiyor-Portfolio.pdf\""
         }
       ]
+    },
+    {
+      "source": "/resume.pdf",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/pdf"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline; filename=\"Bakhtiyor-Resume.pdf\""
+        }
+      ]
     }
   ],
   "redirects": [
