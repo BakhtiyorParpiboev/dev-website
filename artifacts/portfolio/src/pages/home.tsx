@@ -45,39 +45,94 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
   const name = profile?.fullName || "Parpiboev Bakhtiyor";
   const headline = profile?.headline || "Software Engineer";
   return (
-    <section aria-labelledby="hero-title" className="portfolio-hero relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 top-16 overflow-hidden">
+    <section
+      aria-labelledby="hero-title"
+      className="portfolio-hero relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 top-16 overflow-hidden"
+      >
         <ParticleField />
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
       <div className="relative mx-auto flex w-full max-w-[1100px] flex-col items-center px-5 py-32 text-center md:px-8">
-        <p className="rise eyebrow mb-7 flex items-center justify-center gap-3" style={{ animationDelay: "80ms" }}>
+        <p
+          className="rise eyebrow mb-7 flex items-center justify-center gap-3"
+          style={{ animationDelay: "80ms" }}
+        >
           {name}
         </p>
-        <h1 id="hero-title" className="rise w-full text-[clamp(2.2rem,5.4vw,5rem)] font-normal leading-[1.1] tracking-[-0.055em]" style={{ animationDelay: "180ms", textWrap: "balance" }}>
-          {(headline.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [headline]).map((sentence, i) => (
-            <span key={i} className="block">{sentence.trim()}</span>
-          ))}
+        <h1
+          id="hero-title"
+          className="rise w-full text-[clamp(2.2rem,5.4vw,5rem)] font-normal leading-[1.1] tracking-[-0.055em]"
+          style={{ animationDelay: "180ms", textWrap: "balance" }}
+        >
+          {(headline.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [headline]).map(
+            (sentence, i) => (
+              <span key={i} className="block">
+                {sentence.trim()}
+              </span>
+            ),
+          )}
         </h1>
-        <div className="rise mt-7 w-full max-w-xl" style={{ animationDelay: "320ms" }}>
+        <div
+          className="rise mt-7 w-full max-w-xl"
+          style={{ animationDelay: "320ms" }}
+        >
           {loading ? (
-            <div className="space-y-2"><Skeleton className="h-5 w-full" /><Skeleton className="h-5 w-4/5" /></div>
+            <div className="space-y-2">
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-5 w-4/5" />
+            </div>
           ) : (
-            <p data-testid="text-intro" className="text-lg leading-relaxed text-foreground/65 md:text-xl">
-              {profile?.intro || "I build full-stack applications with AI integrations — from data model to the last pixel."}
+            <p
+              data-testid="text-intro"
+              className="text-lg leading-relaxed text-foreground/65 md:text-xl"
+            >
+              {profile?.intro ||
+                "I build full-stack applications with AI integrations — from data model to the last pixel."}
             </p>
           )}
         </div>
-        <div className="rise mt-8 flex flex-wrap justify-center gap-3" style={{ animationDelay: "440ms" }}>
-          <DocButton primary label="Resume" url={profile?.resumeUrl || `${import.meta.env.BASE_URL}resume.pdf`} onMissing={() => setMissing("resume")} />
-          <DocButton label="Portfolio" url={profile?.portfolioUrl} onMissing={() => setMissing("portfolio")} />
-          <DocButton label="상세 개발 경험 보기" url={`${import.meta.env.BASE_URL}work-experience.pdf`} onMissing={() => setMissing("work experience")} />
+        <div
+          className="rise mt-8 flex flex-wrap justify-center gap-3"
+          style={{ animationDelay: "440ms" }}
+        >
+          <DocButton
+            primary
+            label="Resume"
+            url={profile?.resumeUrl || `${import.meta.env.BASE_URL}resume.pdf`}
+            onMissing={() => setMissing("resume")}
+          />
+          <DocButton
+            label="Portfolio"
+            url={profile?.portfolioUrl}
+            onMissing={() => setMissing("portfolio")}
+          />
+          <DocButton
+            label="Work-experience"
+            url={`${import.meta.env.BASE_URL}work-experience.pdf`}
+            onMissing={() => setMissing("work experience")}
+          />
         </div>
-        <p role="status" aria-live="polite" data-testid="text-doc-missing" className={`mt-4 min-h-[1.25rem] text-[13px] text-muted-foreground transition-opacity ${missing ? "opacity-100" : "opacity-0"}`}>
-          {missing ? `The ${missing} document hasn't been added yet. Reach out below and I'll send it directly.` : ""}
+        <p
+          role="status"
+          aria-live="polite"
+          data-testid="text-doc-missing"
+          className={`mt-4 min-h-[1.25rem] text-[13px] text-muted-foreground transition-opacity ${missing ? "opacity-100" : "opacity-0"}`}
+        >
+          {missing
+            ? `The ${missing} document hasn't been added yet. Reach out below and I'll send it directly.`
+            : ""}
         </p>
       </div>
-      <button type="button" onClick={() => scrollToId("about")} aria-label="Scroll to About" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground md:flex">
+      <button
+        type="button"
+        onClick={() => scrollToId("about")}
+        aria-label="Scroll to About"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground md:flex"
+      >
         <span className="eyebrow">Scroll</span>
         <span className="h-10 w-px bg-gradient-to-b from-foreground/40 to-transparent" />
       </button>
