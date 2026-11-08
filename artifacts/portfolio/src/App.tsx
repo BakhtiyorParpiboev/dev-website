@@ -13,6 +13,7 @@ import TalkWithMe from "@/pages/talk-with-me";
 import ContentList from "@/pages/content-list";
 import ContentDetail from "@/pages/content-detail";
 import Admin from "@/pages/admin";
+import { PreferencesProvider } from "@/lib/preferences";
 import { useSeo } from "@/lib/seo";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } } });
@@ -184,7 +185,9 @@ function ClerkProviderWithRoutes() {
       <QueryClientProvider client={queryClient}>
         <ClerkQueryClientCacheInvalidator />
         <TooltipProvider>
-          <Routes />
+          <PreferencesProvider>
+            <Routes />
+          </PreferencesProvider>
           <Toaster />
         </TooltipProvider>
       </QueryClientProvider>

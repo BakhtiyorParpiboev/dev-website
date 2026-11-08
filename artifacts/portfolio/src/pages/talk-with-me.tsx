@@ -1,3 +1,4 @@
+import { usePreferences, type Message } from "@/lib/preferences";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { ArrowLeft, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
@@ -23,12 +24,13 @@ function ContactRow({ href, icon, label, value, testId }: { href?: string; icon:
 }
 
 function MessageForm() {
+  const { t } = usePreferences();
   const send = useCreateVisitorMessage();
   const [, navigate] = useLocation();
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState("");
-  const [notice, setNotice] = useState<{ text: string; kind: "success" | "error" } | null>(null);
+  const [notice, setNotice] = useState<{ text: Message; kind: "success" | "error" } | null>(null);
 
   useEffect(() => {
     if (notice?.kind !== "success") return;
@@ -49,23 +51,24 @@ function MessageForm() {
         onError: () => setNotice({ text: "Your message couldn't be sent. Please try again or use email.", kind: "error" }),
       });
     }}>
-      <label htmlFor="visitor-name">Your name</label>
-      <input id="visitor-name" name="name" autoComplete="name" maxLength={100} required value={name} onChange={(event) => setName(event.target.value)} placeholder="What should I call you?" />
-      <label htmlFor="visitor-message">Your message</label>
-      <textarea id="visitor-message" name="message" rows={4} maxLength={2000} required value={message} onChange={(event) => setMessage(event.target.value)} placeholder="Share your thoughts…" />
+      <label htmlFor="visitor-name">{t("Your name")}</label>
+      <input id="visitor-name" name="name" autoComplete="name" maxLength={100} required value={name} onChange={(event) => setName(event.target.value)} placeholder={t("What should I call you?")} />
+      <label htmlFor="visitor-message">{t("Your message")}</label>
+      <textarea id="visitor-message" name="message" rows={4} maxLength={2000} required value={message} onChange={(event) => setMessage(event.target.value)} placeholder={t("Share your thoughts…")} />
       <div className="contact-form-trap" aria-hidden="true">
         <label htmlFor="visitor-website">Website</label><input id="visitor-website" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(event) => setWebsite(event.target.value)} />
       </div>
       <div className="contact-form-footer">
-        <button type="submit" disabled={send.isPending || notice?.kind === "success"}>{send.isPending ? "Sending…" : notice?.kind === "success" ? "Message sent" : "Send message"}<ArrowUpRight aria-hidden="true" size={16} /></button>
+        <button type="submit" disabled={send.isPending || notice?.kind === "success"}>{send.isPending ? t("Sending…") : notice?.kind === "success" ? t("Message sent") : t("Send message")}<ArrowUpRight aria-hidden="true" size={16} /></button>
         <span>{message.length} / 2000</span>
       </div>
-      <p className={`contact-form-notice ${notice?.kind === "error" ? "is-error" : ""}`} role="status" aria-live="polite">{notice?.text || " "}</p>
+      <p className={`contact-form-notice ${notice?.kind === "error" ? "is-error" : ""}`} role="status" aria-live="polite">{notice ? t(notice.text) : " "}</p>
     </form>
   );
 }
 
 export default function TalkWithMe() {
+  const { t } = usePreferences();
   useSeo({ title: "Let's talk", description: "Get in touch with Parpiboev Bakhtiyor about projects, opportunities, or ideas.", path: "/talkwithme" });
   const profileQ = useGetProfile();
   const profile = profileQ.data;
@@ -74,20 +77,20 @@ export default function TalkWithMe() {
     <PublicShell>
       <section className="talk-page" aria-labelledby="talk-title">
         <header className="talk-header">
-          <div className="talk-topline"><span className="eyebrow">Get in touch</span><Link href="/" className="collection-back"><ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" /> Back home</Link></div>
-          <h1 id="talk-title">Let's talk<span>.</span></h1>
-          <p>Have an idea, an opportunity, or just want to say hello? I’d love to hear from you.</p>
+          <div className="talk-topline"><span className="eyebrow">{t("Get in touch")}</span><Link href="/" className="collection-back"><ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" /> {t("Back home")}</Link></div>
+          <h1 id="talk-title">{t("Let's talk")}<span>.</span></h1>
+          <p>{t("Have an idea, an opportunity, or just want to say hello? I’d love to hear from you.")}</p>
         </header>
         <div className="talk-content">
           <MessageForm />
           <section className="talk-details" aria-labelledby="contact-details-title">
-            <div className="talk-details-intro"><p className="eyebrow">Find me elsewhere</p><h2 id="contact-details-title">Other ways to connect<span>.</span></h2><p>Prefer to reach out directly? Find me through the links below.</p></div>
-            {profileQ.isLoading ? <p role="status">Loading contact details…</p> : profileQ.isError ? <p role="status">Contact details couldn't load. <button type="button" className="link-underline" onClick={() => profileQ.refetch()}>Try again</button></p> : <div className="talk-links">
-              <ContactRow testId="link-email" href={profile?.email ? `mailto:${profile.email}` : undefined} icon={<Mail aria-hidden="true" className="h-4 w-4" />} label="Email" value={profile?.email || "Not added yet"} />
-              <ContactRow testId="link-github" href={profile?.githubUrl || undefined} icon={<Github aria-hidden="true" className="h-4 w-4" />} label="GitHub" value={profile?.githubUrl ? profile.githubUrl.replace(/^https?:\/\/(www\.)?/, "") : "Not added yet"} />
-              <ContactRow testId="link-linkedin" href={profile?.linkedinUrl || undefined} icon={<Linkedin aria-hidden="true" className="h-4 w-4" />} label="LinkedIn" value={profile?.linkedinUrl ? profile.linkedinUrl.replace(/^https?:\/\/(www\.)?/, "") : "Not added yet"} />
+            <div className="talk-details-intro"><p className="eyebrow">{t("Find me elsewhere")}</p><h2 id="contact-details-title">{t("Other ways to connect")}<span>.</span></h2><p>{t("Prefer to reach out directly? Find me through the links below.")}</p></div>
+            {profileQ.isLoading ? <p role="status">{t("Loading contact details…")}</p> : profileQ.isError ? <p role="status">{t("Contact details couldn't load.")} <button type="button" className="link-underline" onClick={() => profileQ.refetch()}>{t("Try again")}</button></p> : <div className="talk-links">
+              <ContactRow testId="link-email" href={profile?.email ? `mailto:${profile.email}` : undefined} icon={<Mail aria-hidden="true" className="h-4 w-4" />} label={t("Email")} value={profile?.email || t("Not added yet")} />
+              <ContactRow testId="link-github" href={profile?.githubUrl || undefined} icon={<Github aria-hidden="true" className="h-4 w-4" />} label="GitHub" value={profile?.githubUrl ? profile.githubUrl.replace(/^https?:\/\/(www\.)?/, "") : t("Not added yet")} />
+              <ContactRow testId="link-linkedin" href={profile?.linkedinUrl || undefined} icon={<Linkedin aria-hidden="true" className="h-4 w-4" />} label="LinkedIn" value={profile?.linkedinUrl ? profile.linkedinUrl.replace(/^https?:\/\/(www\.)?/, "") : t("Not added yet")} />
             </div>}
-            {!profileQ.isLoading && !profileQ.isError && !hasContact && <p className="mt-5 text-sm text-muted-foreground">Contact details haven't been published yet. Check back soon.</p>}
+            {!profileQ.isLoading && !profileQ.isError && !hasContact && <p className="mt-5 text-sm text-muted-foreground">{t("Contact details haven't been published yet. Check back soon.")}</p>}
           </section>
         </div>
       </section>

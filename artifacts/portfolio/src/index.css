@@ -696,3 +696,32 @@ a.contact-row:hover > span:first-child > span:first-child { background-color: hs
   .talk-page .contact-form input, .talk-page .contact-form textarea { font-size: 1rem; }
   .talk-links .contact-row { min-height: 5.5rem; }
 }
+
+.public-site.dark {
+  color-scheme: dark;
+  --background: 155 13% 9%;
+  --foreground: 150 12% 94%;
+  --border: 150 10% 29%;
+  --card: 155 12% 13%;
+  --card-foreground: var(--foreground);
+  --card-border: var(--border);
+  --secondary: 153 13% 18%;
+  --secondary-foreground: var(--foreground);
+  --muted: var(--secondary);
+  --muted-foreground: 150 8% 69%;
+  --accent: 153 20% 20%;
+  --accent-foreground: 148 44% 76%;
+  --input: 150 10% 39%;
+  --ring: 148 44% 72%;
+  --green: 148 44% 72%;
+}
+
+.dark .current-feature {
+  background: hsl(var(--card));
+  border-color: hsl(var(--border));
+}
+
+.dark .current-links { border-color: hsl(var(--border)); }
+.dark :is(.current-status, .current-links a, .writing-link:hover h3) { color: hsl(var(--green)); }
+.dark .contact-form-notice.is-error { color: hsl(0 80% 75%); }
+.dark .talk-page .contact-form-footer button:hover:not(:disabled) { color: hsl(var(--background)); }

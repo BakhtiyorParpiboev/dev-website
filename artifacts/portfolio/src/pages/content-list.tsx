@@ -1,3 +1,4 @@
+import { usePreferences } from "@/lib/preferences";
 import { Link } from "wouter";
 import { ArrowLeft, ArrowUpRight, Layers3 } from "lucide-react";
 import { useListContent } from "@workspace/api-client-react";
@@ -6,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSeo } from "@/lib/seo";
 
 export default function ContentList({ kind }: { kind: "project" | "blog" }) {
+  const { t, language } = usePreferences();
   const isProject = kind === "project";
   useSeo({
     title: isProject ? "Projects" : "Blog",
@@ -21,24 +23,24 @@ export default function ContentList({ kind }: { kind: "project" | "blog" }) {
       <section aria-labelledby="collection-title" className={`collection-page ${isProject ? "projects-page" : "blog-page"}`}>
         <header className="collection-header rise">
           <div className="collection-topline">
-            <p className="eyebrow">{isProject ? "Selected work" : "Field notes"}</p>
-            <Link href="/" className="collection-back"><ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" /> Back home</Link>
+            <p className="eyebrow">{isProject ? t("Selected work") : t("Field notes")}</p>
+            <Link href="/" className="collection-back"><ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" /> {t("Back home")}</Link>
           </div>
-          <h1 id="collection-title">{isProject ? "Projects" : "Blog"}<span>.</span></h1>
+          <h1 id="collection-title">{isProject ? t("Projects") : t("Blog")}<span>.</span></h1>
           <div className="collection-intro">
-            <p>{isProject ? "Applications, experiments, and integrations — with notes on how and why they were built." : "Notes on engineering decisions, tooling, and building with AI."}</p>
-            {!q.isLoading && !q.isError && <span className="collection-count">{items.length} {isProject ? (items.length === 1 ? "project" : "projects") : (items.length === 1 ? "article" : "articles")}</span>}
+            <p>{isProject ? t("Applications, experiments, and integrations — with notes on how and why they were built.") : t("Notes on engineering decisions, tooling, and building with AI.")}</p>
+            {!q.isLoading && !q.isError && <span className="collection-count">{items.length.toLocaleString(language)} {isProject ? (items.length === 1 ? t("project") : t("projects")) : (items.length === 1 ? t("article") : t("articles"))}</span>}
           </div>
         </header>
         <div className="collection-body">
           {q.isLoading ? (
             <div className="space-y-10">{[0, 1, 2].map((i) => <div key={i} className="space-y-3 border-t border-border pt-8"><Skeleton className="h-7 w-1/3" /><Skeleton className="h-4 w-1/2" /></div>)}</div>
           ) : q.isError ? (
-            <p className="border-t border-border py-10 text-foreground/60">Couldn't load this list. <button type="button" onClick={() => q.refetch()} className="link-underline text-foreground" data-testid="button-retry">Try again</button></p>
+            <p className="border-t border-border py-10 text-foreground/60">{t("Couldn't load this list.")} <button type="button" onClick={() => q.refetch()} className="link-underline text-foreground" data-testid="button-retry">{t("Try again")}</button></p>
           ) : items.length === 0 ? (
             <div className="collection-empty">
-              <p className="text-xl font-medium">Nothing published yet.</p>
-              <p className="mt-2 text-muted-foreground">New {isProject ? "projects" : "posts"} will appear here.</p>
+              <p className="text-xl font-medium">{t("Nothing published yet.")}</p>
+              <p className="mt-2 text-muted-foreground">{isProject ? t("New projects will appear here.") : t("New posts will appear here.")}</p>
             </div>
           ) : (
             <ul className={isProject ? "collection-projects" : "collection-journal"}>
@@ -46,8 +48,8 @@ export default function ContentList({ kind }: { kind: "project" | "blog" }) {
                 <Reveal as="li" key={it.id} delay={Math.min(i, 6) * 60}>
                   <Link href={`${base}/${it.slug}`} data-testid={`link-item-${it.slug}`} className={isProject ? "collection-project group" : "collection-article group"}>
                     {isProject ? <div className="project-visual" aria-hidden="true">
-                      {it.imageUrl ? <img src={it.imageUrl} alt="" width="640" height="400" loading="lazy" /> : <><span className="project-visual-label">Project</span><Layers3 className="h-12 w-12 text-[hsl(150_20%_65%)]" strokeWidth={1} /><span className="project-cross">+</span></>}
-                    </div> : <time dateTime={it.createdAt} className="font-mono text-xs text-muted-foreground">{formatDate(it.createdAt)}</time>}
+                      {it.imageUrl ? <img src={it.imageUrl} alt="" width="640" height="400" loading="lazy" /> : <><span className="project-visual-label">{t("Project")}</span><Layers3 className="h-12 w-12 text-[hsl(150_20%_65%)]" strokeWidth={1} /><span className="project-cross">+</span></>}
+                    </div> : <time dateTime={it.createdAt} className="font-mono text-xs text-muted-foreground">{formatDate(it.createdAt, language)}</time>}
                     <div className="collection-copy">
                       <div className="flex flex-wrap items-center gap-3">
                         <h2 className="collection-item-title">{it.title}</h2>
@@ -55,7 +57,7 @@ export default function ContentList({ kind }: { kind: "project" | "blog" }) {
                       </div>
                       <p className="mt-3 max-w-2xl text-foreground/60">{it.summary}</p>
                       <div className="mt-4"><Tags tags={it.tags} /></div>
-                      <span className="collection-read">{isProject ? "Explore project" : "Read article"} <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" /></span>
+                      <span className="collection-read">{isProject ? t("Explore project") : t("Read article")} <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" /></span>
                     </div>
                     <span className="entry-arrow" aria-hidden="true"><ArrowUpRight className="h-5 w-5" /></span>
                   </Link>

@@ -1,3 +1,4 @@
+import { usePreferences } from "@/lib/preferences";
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { ArrowRight, ArrowUpRight, FileText, Layers3 } from "lucide-react";
@@ -23,14 +24,15 @@ function AboutImage() {
   </div>;
 }
 
-function DocButton({ label, url, primary, onMissing }: { label: string; url?: string; primary?: boolean; onMissing: () => void }) {
+function DocButton({ label, url, primary, onMissing }: { label: "Resume" | "Portfolio"; url?: string; primary?: boolean; onMissing: () => void }) {
+  const { t } = usePreferences();
   const cls = primary
     ? "bg-foreground text-background hover:-translate-y-0.5"
     : "border border-foreground/15 bg-background/60 backdrop-blur hover:-translate-y-0.5 hover:border-foreground/35";
   const inner = (
     <>
       <FileText aria-hidden="true" className="h-4 w-4 opacity-70" />
-      {label}
+      {t(label)}
       <ArrowUpRight aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
     </>
   );
@@ -41,9 +43,11 @@ function DocButton({ label, url, primary, onMissing }: { label: string; url?: st
 }
 
 function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
-  const [missing, setMissing] = useState<string | null>(null);
+  const { t } = usePreferences();
+  const [missing, setMissing] = useState(false);
   const name = profile?.fullName || "Parpiboev Bakhtiyor";
   const headline = profile?.headline || "Software Engineer";
+  const localizedHeadline = headline === "Software Engineer" ? t(headline) : headline;
   return (
     <section
       aria-labelledby="hero-title"
@@ -68,7 +72,7 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
           className="rise w-full text-[clamp(2.2rem,5.4vw,5rem)] font-normal leading-[1.1] tracking-[-0.055em]"
           style={{ animationDelay: "180ms", textWrap: "balance" }}
         >
-          {(headline.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [headline]).map(
+          {(localizedHeadline.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [localizedHeadline]).map(
             (sentence, i) => (
               <span key={i} className="block">
                 {sentence.trim()}
@@ -91,7 +95,7 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
               className="text-lg leading-relaxed text-foreground/65 md:text-xl"
             >
               {profile?.intro ||
-                "I build full-stack applications with AI integrations — from data model to the last pixel."}
+                t("I build full-stack applications with AI integrations — from data model to the last pixel.")}
             </p>
           )}
         </div>
@@ -103,12 +107,12 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
             primary
             label="Resume"
             url={`${import.meta.env.BASE_URL}resume.pdf`}
-            onMissing={() => setMissing("resume")}
+            onMissing={() => setMissing(true)}
           />
           <DocButton
             label="Portfolio"
             url={`${import.meta.env.BASE_URL}portfolio.pdf`}
-            onMissing={() => setMissing("portfolio")}
+            onMissing={() => setMissing(true)}
           />
         </div>
         <p
@@ -118,17 +122,17 @@ function Hero({ profile, loading }: { profile?: Profile; loading: boolean }) {
           className={`mt-4 min-h-[1.25rem] text-[13px] text-muted-foreground transition-opacity ${missing ? "opacity-100" : "opacity-0"}`}
         >
           {missing
-            ? `The ${missing} document hasn't been added yet. Reach out below and I'll send it directly.`
+            ? t("The document hasn't been added yet. Reach out below and I'll send it directly.")
             : ""}
         </p>
       </div>
       <button
         type="button"
         onClick={() => scrollToId("about")}
-        aria-label="Scroll to About"
+        aria-label={t("Scroll to About")}
         className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground md:flex"
       >
-        <span className="eyebrow">Scroll</span>
+        <span className="eyebrow">{t("Scroll")}</span>
         <span className="h-10 w-px bg-gradient-to-b from-foreground/40 to-transparent" />
       </button>
     </section>
@@ -149,7 +153,7 @@ const OFFERS = [
   { note: "Practical intelligence", n: "02", t: "AI integrations", d: "Language models wired into real workflows, with structured outputs, guardrails, and graceful fallbacks." },
   { note: "Clarity before complexity", n: "03", t: "Software design", d: "Clear requirements, thoughtful system models, and modular designs that make software easier to build, maintain, and evolve." },
   { note: "A dependable foundation", n: "04", t: "Backend architecture", d: "Reliable servers, well-defined APIs, and considered data models — with authentication, validation, and room to grow." },
-];
+] as const;
 
 function OfferVisual({ kind }: { kind: string }) {
   return (
@@ -178,12 +182,13 @@ function OfferVisual({ kind }: { kind: string }) {
 }
 
 function ProjectRow({ p, i }: { p: Content; i: number }) {
+  const { t } = usePreferences();
   return (
     <Reveal as="li" delay={i * 70}>
       <Link href={`/projects/${p.slug}`} data-testid={`card-project-${p.slug}`} className="project-entry group">
         <div className="project-visual" aria-hidden="true">
           {p.imageUrl ? <img src={p.imageUrl} alt="" width="640" height="400" loading="lazy" /> : <>
-            <span className="project-visual-label">Project</span>
+            <span className="project-visual-label">{t("Project")}</span>
             <Layers3 className="h-12 w-12 text-[hsl(150_20%_65%)]" strokeWidth={1} />
             <span className="project-cross">+</span>
           </>}
@@ -192,7 +197,7 @@ function ProjectRow({ p, i }: { p: Content; i: number }) {
           <div className="mb-5 flex flex-wrap items-center gap-3"><Tags tags={p.tags} /><ExampleBadge item={p} /></div>
           <h3 className="text-2xl font-normal tracking-tight md:text-[2rem]">{p.title}</h3>
           <p className="mt-4 max-w-xl leading-relaxed text-foreground/65">{p.summary}</p>
-          <span className="project-read">Explore project <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></span>
+          <span className="project-read">{t("Explore project")} <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></span>
         </div>
         <span className="entry-arrow" aria-hidden="true"><ArrowUpRight aria-hidden="true" className="h-5 w-5" /></span>
       </Link>
@@ -205,10 +210,12 @@ function ListSkeleton() {
 }
 
 function ErrorLine({ onRetry }: { onRetry: () => void }) {
-  return <div className="border-t border-border py-10 text-foreground/60">This list couldn't load. <button type="button" onClick={onRetry} className="link-underline text-foreground">Try again</button></div>;
+  const { t } = usePreferences();
+  return <div className="border-t border-border py-10 text-foreground/60">{t("This list couldn't load.")} <button type="button" onClick={onRetry} className="link-underline text-foreground">{t("Try again")}</button></div>;
 }
 
 export default function Home() {
+  const { t } = usePreferences();
   useSeo({ title: "Parpiboev Bakhtiyor", description: "Parpiboev Bakhtiyor is a software engineer building full-stack applications with AI integrations. Offering Software Design, backend architectures, from zero to deployment.", path: "/" });
   const profileQ = useGetProfile();
   const projectsQ = useListContent({ kind: "project" });
@@ -230,8 +237,8 @@ export default function Home() {
       <section aria-labelledby="about-title" id="about" className="about-section scroll-mt-20">
         <Reveal className="about-card">
         <div className="about-copy">
-          <h2 id="about-title">About me</h2>
-          {profileQ.isLoading ? <div className="space-y-3"><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-3/4" /></div> : profileQ.isError ? <p role="status">About couldn't load. <button type="button" onClick={() => profileQ.refetch()} className="link-underline text-foreground">Try again</button></p> : aboutParas.length ? aboutParas.map((p, i) => <p key={i} className="whitespace-pre-line">{p}</p>) : <p className="text-muted-foreground">The about section hasn't been written yet.</p>}
+          <h2 id="about-title">{t("About me")}</h2>
+          {profileQ.isLoading ? <div className="space-y-3"><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-3/4" /></div> : profileQ.isError ? <p role="status">{t("About couldn't load.")} <button type="button" onClick={() => profileQ.refetch()} className="link-underline text-foreground">{t("Try again")}</button></p> : aboutParas.length ? aboutParas.map((p, i) => <p key={i} className="whitespace-pre-line">{p}</p>) : <p className="text-muted-foreground">{t("The about section hasn't been written yet.")}</p>}
         </div>
         <AboutImage />
         </Reveal>
@@ -240,16 +247,16 @@ export default function Home() {
       <section aria-labelledby="offer-title" id="offer" className="offer-section">
         <div className="offer-wrap">
           <Reveal className="offer-heading">
-            <h2 id="offer-title">What I offer</h2>
-            <p>From the first schema to the shipped interface.</p>
+            <h2 id="offer-title">{t("What I offer")}</h2>
+            <p>{t("From the first schema to the shipped interface.")}</p>
           </Reveal>
           <ul className="offer-grid">
             {OFFERS.map((o, i) => (
               <Reveal as="li" key={o.n} delay={i * 80} className="offer-item group">
                 <OfferVisual kind={o.n} />
-                <h3>{o.t}</h3>
-                <p className="offer-description">{o.d}</p>
-                <p className="offer-note">{o.note}</p>
+                <h3>{t(o.t)}</h3>
+                <p className="offer-description">{t(o.d)}</p>
+                <p className="offer-note">{t(o.note)}</p>
               </Reveal>
             ))}
           </ul>
@@ -257,23 +264,23 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="projects-title" id="projects" className="section-wrap selected-projects scroll-mt-20">
-        <SectionHead label="Projects" title="Selected work." id="projects-title" />
+        <SectionHead label={t("Projects")} title={t("Selected work.")} id="projects-title" />
         {projectsQ.isLoading ? <ListSkeleton /> : projectsQ.isError ? <ErrorLine onRetry={() => projectsQ.refetch()} /> : projects.length === 0 ? (
-          <p className="border-t border-border py-10 text-muted-foreground">No projects published yet.</p>
+          <p className="border-t border-border py-10 text-muted-foreground">{t("No projects published yet.")}</p>
         ) : (
           <ul className="project-list">{projects.map((p, i) => <ProjectRow key={p.id} p={p} i={i} />)}</ul>
         )}
         <Reveal className="mt-10">
-          <Link href="/projects" data-testid="link-all-projects" className="group inline-flex items-center gap-2 text-[15px] font-medium">All projects <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
+          <Link href="/projects" data-testid="link-all-projects" className="group inline-flex items-center gap-2 text-[15px] font-medium">{t("All projects")} <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
         </Reveal>
       </section>
 
       <section aria-labelledby="contact-title" id="contact" className="contact-section scroll-mt-20 border-t border-border">
         <div className="section-wrap">
-          <p className="eyebrow">Contact</p>
-          <h2 id="contact-title" className="display mt-8 text-[clamp(3rem,8vw,6.5rem)]">Let's talk.</h2>
-          <p className="mt-8 max-w-md text-lg text-foreground/60">Open to roles and collaborations on full-stack and AI-integrated products.</p>
-          <Link href="/talkwithme" className="mt-8 inline-flex items-center gap-2 text-base font-medium link-underline">Get in touch <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></Link>
+          <p className="eyebrow">{t("Contact")}</p>
+          <h2 id="contact-title" className="display mt-8 text-[clamp(3rem,8vw,6.5rem)]">{t("Let's talk.")}</h2>
+          <p className="mt-8 max-w-md text-lg text-foreground/60">{t("Open to roles and collaborations on full-stack and AI-integrated products.")}</p>
+          <Link href="/talkwithme" className="mt-8 inline-flex items-center gap-2 text-base font-medium link-underline">{t("Get in touch")} <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></Link>
         </div>
       </section>
       </div>
